@@ -940,6 +940,7 @@ let lastZPrompt   = '';
 let lastWanPrompt = '';
 let currentTab    = 'z';
 let history       = [];
+let generateCount = 0;  // 初回起動時の自動コピーを防ぐためのカウンター
 
 function getCustomInputText(key) {
   return document.getElementById(`custom-${key}`)?.value.trim() || '';
@@ -1070,8 +1071,13 @@ function generate() {
     badgeEl.appendChild(b);
   });
 
+  generateCount++;
   addHistory();
-  resetCopyBtn();
+  if (generateCount > 1) {
+    autoCopyPrompt();
+  } else {
+    resetCopyBtn();
+  }
 }
 
 // resultTexts: 各パラメータの解決済みテキストを直接受け取る
@@ -1109,20 +1115,37 @@ function resetCopyBtn() {
 // ══════════════════════════════════════════════
 //  コピー
 // ══════════════════════════════════════════════
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+  document.body.removeChild(ta);
+}
+
+function showCopyFeedback(label) {
+  const cb = document.getElementById('copy-btn');
+  cb.classList.toggle('wan-mode', currentTab === 'wan');
+  cb.textContent = label;
+  cb.classList.add('copied');
+  setTimeout(() => { cb.textContent = 'コピー'; cb.classList.remove('copied'); }, 2000);
+}
+
+function autoCopyPrompt() {
+  const text = currentTab === 'z' ? lastZPrompt : lastWanPrompt;
+  if (!text) { resetCopyBtn(); return; }
+  const p = navigator.clipboard
+    ? navigator.clipboard.writeText(text).catch(() => fallbackCopy(text))
+    : Promise.resolve(fallbackCopy(text));
+  p.then(() => showCopyFeedback('✓ 自動コピー済み'));
+}
+
 function copyPrompt() {
   const text = currentTab === 'z' ? lastZPrompt : lastWanPrompt;
   if (!text) return;
-  navigator.clipboard.writeText(text).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
-    document.body.removeChild(ta);
-  }).finally(() => {});
-  // show feedback regardless
-  const cb = document.getElementById('copy-btn');
-  cb.textContent = '✓ コピーしました';
-  cb.classList.add('copied');
-  setTimeout(() => { cb.textContent = 'コピー'; cb.classList.remove('copied'); }, 2000);
+  const p = navigator.clipboard
+    ? navigator.clipboard.writeText(text).catch(() => fallbackCopy(text))
+    : Promise.resolve(fallbackCopy(text));
+  p.then(() => showCopyFeedback('✓ コピーしました'));
 }
 
 // ══════════════════════════════════════════════
@@ -1131,7 +1154,10 @@ function copyPrompt() {
 function addHistory() {
   const now  = new Date();
   const time = `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
-  history.unshift({ time, z: lastZPrompt, wan: lastWanPrompt });
+  // バッジとパラメータ状態もスナップショットとして保存
+  const badgesHTML   = document.getElementById('badges').innerHTML;
+  const resultSnapshot = Object.assign({}, lastResult);
+  history.unshift({ time, z: lastZPrompt, wan: lastWanPrompt, badgesHTML, result: resultSnapshot });
   if (history.length > 8) history.pop();
 
   const hl = document.getElementById('history-list');
@@ -1143,11 +1169,39 @@ function addHistory() {
 }
 
 function restoreHistory(i) {
-  lastZPrompt   = history[i].z;
-  lastWanPrompt = history[i].wan;
+  const h = history[i];
+  lastZPrompt   = h.z;
+  lastWanPrompt = h.wan;
   document.getElementById('out-z').textContent   = lastZPrompt;
   document.getElementById('out-wan').textContent = lastWanPrompt;
+
+  // バッジを復元
+  if (h.badgesHTML) {
+    document.getElementById('badges').innerHTML = h.badgesHTML;
+  }
+
+  // パラメータのドロップダウンを復元
+  if (h.result) {
+    restoreParamsFromResult(h.result);
+  }
+
   resetCopyBtn();
+}
+
+function restoreParamsFromResult(savedResult) {
+  ALL_BUILTIN_KEYS.forEach(key => {
+    const val = savedResult[key];
+    if (!val || val === '__custom__') return;
+    const sel = document.getElementById(`sel-${key}`);
+    if (!sel) return;
+    const exists = Array.from(sel.options).some(o => o.value === val);
+    if (exists) {
+      sel.value = val;
+      // カスタム入力欄を非表示に
+      const inp = document.getElementById(`custom-${key}`);
+      if (inp) inp.classList.remove('visible');
+    }
+  });
 }
 
 // ══════════════════════════════════════════════
