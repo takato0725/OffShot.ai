@@ -25,13 +25,6 @@ Z-image / Wan 両対応の、アイドル日常スナップ風プロンプト自
 ### ブラウザで直接開く
 ```
 index.html をブラウザにドラッグ＆ドロップ
-```
-
-### GitHub Pages で公開する
-1. このリポジトリを GitHub に push
-2. Settings → Pages → Source: `main` ブランチ / `/ (root)` を選択
-3. 数分で URL が発行される
-
 ---
 
 ## 🛠 技術スタック
@@ -45,7 +38,6 @@ index.html をブラウザにドラッグ＆ドロップ
 
 ## 📁 ファイル構成
 
-```
 offshot-ai/
 └── index.html   ← アプリ本体（これ1ファイルで完結）
 ```
