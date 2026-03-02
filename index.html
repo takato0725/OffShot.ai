@@ -429,16 +429,28 @@ const PARAMS = {
       { val:'rehearsal', label:'リハーサル休憩' },
       { val:'rooftop',   label:'ビル屋上' },
       { val:'park',      label:'公園ベンチ' },
+      { val:'beach',     label:'ビーチ・海岸' },
+      { val:'pool',      label:'プールサイド' },
+      { val:'izakaya',   label:'居酒屋' },
+      { val:'bus',       label:'バス車内' },
+      { val:'airport',   label:'空港ターミナル' },
+      { val:'festival',  label:'夏祭り会場' },
+      { val:'library',   label:'図書館' },
+      { val:'mall',      label:'ショッピングモール' },
+      { val:'classroom', label:'教室・学校廊下' },
+      { val:'onsen',     label:'温泉・銭湯' },
     ]
   },
   distance: {
     label: '距離感',
     options: [
-      { val:'random', label:'ランダム' },
-      { val:'close',  label:'近距離（胸〜顔）' },
-      { val:'mid',    label:'中距離（半身）' },
-      { val:'far',    label:'遠め（全身）' },
-      { val:'candid', label:'盗撮気味（望遠圧縮）' },
+      { val:'random',        label:'ランダム' },
+      { val:'extreme_close', label:'超クローズアップ（顔のみ）' },
+      { val:'close',         label:'近距離（胸〜顔）' },
+      { val:'bust',          label:'バストアップ' },
+      { val:'mid',           label:'中距離（半身）' },
+      { val:'far',           label:'遠め（全身）' },
+      { val:'candid',        label:'盗撮気味（望遠圧縮）' },
     ]
   },
   angle: {
@@ -473,6 +485,10 @@ const PARAMS = {
       { val:'half_up',  label:'ハーフアップ' },
       { val:'messy',    label:'くしゃっと崩れ' },
       { val:'wet',      label:'濡れ髪（上がり直後）' },
+      { val:'short',    label:'ショートカット' },
+      { val:'bob',      label:'ボブ' },
+      { val:'braid',    label:'三つ編み' },
+      { val:'twin',     label:'ツインテール' },
     ]
   },
   outfit: {
@@ -485,6 +501,13 @@ const PARAMS = {
       { val:'knit',      label:'ニット・ゆるめ' },
       { val:'uniform',   label:'グループTシャツ' },
       { val:'coat',      label:'アウター（コート）' },
+      { val:'bikini',    label:'ビキニ水着' },
+      { val:'swimsuit',  label:'ワンピース水着' },
+      { val:'yukata',    label:'浴衣' },
+      { val:'dress',     label:'ワンピース・ドレス' },
+      { val:'shorts',    label:'ショートパンツ' },
+      { val:'sportsbra', label:'スポーツブラ' },
+      { val:'tanktop',   label:'タンクトップ' },
     ]
   },
   noise: {
@@ -507,6 +530,57 @@ const PARAMS = {
       { val:'soft',   label:'ふわっとピンボケ' },
     ]
   },
+  body: {
+    label: '体型',
+    options: [
+      { val:'random',    label:'ランダム' },
+      { val:'slender',   label:'スレンダー' },
+      { val:'glamorous', label:'グラマー' },
+      { val:'slim_avg',  label:'細め普通体型' },
+      { val:'athletic',  label:'スポーティ・筋肉質' },
+      { val:'petite',    label:'小柄・華奢' },
+    ]
+  },
+  pose: {
+    label: 'ポーズ',
+    options: [
+      { val:'random',        label:'ランダム' },
+      { val:'natural_stand', label:'自然な立ち姿' },
+      { val:'sitting',       label:'座り（床・ベンチ）' },
+      { val:'walking',       label:'歩き途中' },
+      { val:'phone',         label:'スマホ操作中' },
+      { val:'wall_lean',     label:'壁もたれ' },
+      { val:'crouch',        label:'しゃがみ' },
+      { val:'look_back',     label:'振り返り' },
+    ]
+  },
+  held_item: {
+    label: '手に持っているもの',
+    options: [
+      { val:'random',     label:'ランダム' },
+      { val:'none',       label:'なし' },
+      { val:'smartphone', label:'スマホ' },
+      { val:'bottle',     label:'ペットボトル' },
+      { val:'coffee',     label:'コーヒーカップ' },
+      { val:'umbrella',   label:'傘' },
+      { val:'bag',        label:'バッグ' },
+      { val:'towel',      label:'タオル' },
+      { val:'script',     label:'台本・楽譜' },
+    ]
+  },
+  time_of_day: {
+    label: '時間帯',
+    options: [
+      { val:'random',        label:'ランダム' },
+      { val:'early_morning', label:'早朝（夜明け前後）' },
+      { val:'morning',       label:'朝（通勤・通学時間）' },
+      { val:'noon',          label:'昼（正午前後）' },
+      { val:'afternoon',     label:'午後（日中）' },
+      { val:'evening',       label:'夕方（黄金の時間）' },
+      { val:'night',         label:'夜（日没後）' },
+      { val:'late_night',    label:'深夜（静寂）' },
+    ]
+  },
 };
 
 // ══════════════════════════════════════════════
@@ -525,12 +599,24 @@ const TEXT = {
     rehearsal:   'rehearsal room downtime, wooden floor, mirrors along one wall, she is seated resting between runs',
     rooftop:     'building rooftop in urban Tokyo, grey sky, city sprawl blurred far below, laundry pole nearby',
     park:        'small neighborhood park bench, bare tree branches overhead, midday flat light',
+    beach:       'sandy beach along the Japanese coast, bright midday sun, sea stretching behind her, bare feet on damp sand',
+    pool:        'poolside area, damp concrete, afternoon summer light, lane ropes and calm water in background',
+    izakaya:     'small intimate izakaya booth, warm orange pendant light, wooden slatted wall, late evening, a glass on the table nearby',
+    bus:         'aboard a local city bus, vinyl bench seating, overhead handrail, city scenery blurring past the window',
+    airport:     'domestic airport terminal waiting area, grey speckled carpet, distant departure board glow, carry-on luggage beside her',
+    festival:    'outdoor summer festival grounds at dusk, paper lantern warm light, crowd and food stalls blurred in background',
+    library:     'quiet small library reading room, rows of bookshelves behind her, muted fluorescent overhead light, wooden desk surface',
+    mall:        'indoor shopping mall walkway, bright ceiling lights, shop facades softly out of focus behind her',
+    classroom:   'empty or quiet classroom after school, rows of desks, afternoon light through tall windows, blackboard faintly visible',
+    onsen:       'outdoor hot spring or sento changing area entrance, wooden architecture, steam in the air, warm amber light',
   },
   distance: {
-    close:  'tight frame from chest to face, fills almost the full frame',
-    mid:    'half-body shot, loose framing, some dead space',
-    far:    'full body visible, surrounded by environment',
-    candid: 'slightly telephoto compressed look, shot from across the space as if she did not notice',
+    extreme_close: 'extreme close-up of face only, fills the entire frame, pores and eyelashes visible, almost uncomfortably intimate',
+    close:         'tight frame from chest to face, fills almost the full frame',
+    bust:          'bust-up framing from waist to face, slightly loose, natural portrait distance',
+    mid:           'half-body shot, loose framing, some dead space around her',
+    far:           'full body visible, surrounded by environment, she appears smaller in frame',
+    candid:        'slightly telephoto compressed look, shot from across the space as if she did not notice',
   },
   angle: {
     eye:  'straight-on eye-level angle, slightly awkward composition as if snapped quickly',
@@ -547,20 +633,31 @@ const TEXT = {
     dark:    'underexposed ambient, raised digital noise, practical light sources only',
   },
   hair: {
-    ponytail: 'hair in a loose ponytail, a few strands fallen loose',
-    bun:      'casual messy bun, hurriedly pinned',
-    down:     'hair down and natural, uncombed-looking',
-    half_up:  'half-up style, rest loose',
-    messy:    'hair slightly disheveled, like after a long rehearsal',
-    wet:      'damp hair from recent shower or rain, slightly darker and clinging',
+    ponytail: 'hair in a loose ponytail, a few strands fallen loose around the face',
+    bun:      'casual messy bun, hurriedly pinned, a few wisps escaping',
+    down:     'hair down and natural, slightly uncombed-looking',
+    half_up:  'half-up style, rest of hair loose below',
+    messy:    'hair slightly disheveled, like after a long rehearsal or tired afternoon',
+    wet:      'damp hair from recent shower or rain, slightly darker and clinging to neck',
+    short:    'short haircut above the ears, back of the neck exposed, clean and fresh look',
+    bob:      'clean jaw-length bob cut, slightly asymmetric ends, naturally straight',
+    braid:    'loose single side braid or casual twin braids, a few strands loose around the face',
+    twin:     'high twin tails, slightly asymmetric and relaxed, youthful and energetic style',
   },
   outfit: {
-    casual:    'plain casual clothes, oversized tee or hoodie, jeans',
-    stage_off: 'still wearing part of stage costume with a zip-up thrown over, sweaty',
+    casual:    'plain casual clothes, oversized tee or hoodie, jeans, everyday look',
+    stage_off: 'still wearing part of stage costume with a zip-up jacket thrown over, slightly sweaty',
     jersey:    'group-branded jersey or sweat pants, sporty downtime look',
-    knit:      'loose soft knit sweater, slightly oversized',
-    uniform:   'plain group merch tee, no special styling',
-    coat:      'thick winter coat, scarf bundled, exhale visible in cold air',
+    knit:      'loose soft knit sweater, slightly oversized, cozy and relaxed',
+    uniform:   'plain group merch tee, no special styling, pulled together quickly',
+    coat:      'thick winter coat, scarf bundled around neck, cold exhale visible in air',
+    bikini:    'wearing a bikini, colorful or minimal two-piece swimsuit, summer beach or pool implied',
+    swimsuit:  'wearing a one-piece swimsuit, form-fitting, at poolside or beach context implied',
+    yukata:    'wearing a summer yukata with casual obi, traditional Japanese summer garment, wooden geta sandals implied',
+    dress:     'wearing a casual sundress or everyday dress, light fabric, natural feminine silhouette',
+    shorts:    'wearing denim shorts or casual short pants, simple top tucked or left loose',
+    sportsbra: 'wearing a sports bra and high-waist leggings or joggers, post-workout or warm-up look',
+    tanktop:   'wearing a basic fitted tank top and simple bottoms, minimal casual summer style',
   },
   noise: {
     low:  'minimal sensor noise, fairly crisp smartphone image quality',
@@ -573,6 +670,41 @@ const TEXT = {
     slight: 'faint camera shake, subtle motion trail on edges',
     motion: 'subject motion blur on hands or hair from mid-motion catch',
     soft:   'slightly soft focus as if camera missed focus by a bit',
+  },
+  body: {
+    slender:   'slender and slim build, light delicate frame, narrow shoulders, lean limbs',
+    glamorous: 'curvaceous and full-figured, prominent bust and rounded hips, striking feminine silhouette',
+    slim_avg:  'naturally proportioned average-slim build, balanced and unforced body shape',
+    athletic:  'toned and athletic build, visible muscle definition, broad shoulders, lean with evident training',
+    petite:    'petite and small-framed, compact height and slight build, delicate proportions',
+  },
+  pose: {
+    natural_stand: 'standing with relaxed natural posture, weight subtly shifted to one side, arms hanging loosely',
+    sitting:       'seated casually on the floor or a bench, arms resting forward on knees or loosely in lap',
+    walking:       'caught mid-stride, one foot forward, arms mid-swing, candid walking motion',
+    phone:         'focused on her smartphone, thumb scrolling or typing, chin slightly down, absorbed in screen',
+    wall_lean:     'leaning one shoulder against a wall, legs lightly crossed at ankle, arms loosely folded',
+    crouch:        'crouching low, knees together, looking at something near the ground or resting between takes',
+    look_back:     'glancing back over one shoulder, body still mostly turned away, half-profile visible',
+  },
+  held_item: {
+    none:       '',
+    smartphone: 'holding a smartphone in one hand, screen facing her',
+    bottle:     'clutching a clear plastic bottle of tea or mineral water',
+    coffee:     'holding a paper coffee cup or convenience store hot drink',
+    umbrella:   'holding a folded umbrella or a clear vinyl umbrella at her side',
+    bag:        'carrying a tote bag or small shoulder bag in one hand or over her arm',
+    towel:      'holding a small hand towel draped over her shoulder or loosely around her neck',
+    script:     'holding folded papers or a small booklet, studying lines between rehearsal takes',
+  },
+  time_of_day: {
+    early_morning: 'very early morning, pre-dawn blue-grey light, streets completely empty and silent, faint glow on the horizon',
+    morning:       'bright morning, low-angle east light casting long soft shadows, fresh start-of-day atmosphere',
+    noon:          'midday, harsh direct overhead sunlight or bright flat overcast, peak activity around her',
+    afternoon:     'afternoon daylight, sun lower and slightly warmer, relaxed mid-day lull',
+    evening:       'golden hour, warm orange-pink sky, long dramatic shadows, day winding down',
+    night:         'nighttime, artificial lights dominant, dark sky, streetlights and glowing signs in background',
+    late_night:    'deep late night past midnight, almost no one around, sparse cold artificial light, heavy quiet and fatigue in the air',
   },
 };
 
@@ -775,14 +907,18 @@ const ALL_BUILTIN_KEYS = Object.keys(PARAMS);
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 const KEYMAPS = {
-  location: Object.keys(TEXT.location),
-  distance: Object.keys(TEXT.distance),
-  angle:    Object.keys(TEXT.angle),
-  exposure: Object.keys(TEXT.exposure),
-  hair:     Object.keys(TEXT.hair),
-  outfit:   Object.keys(TEXT.outfit),
-  noise:    Object.keys(TEXT.noise),
-  motion:   Object.keys(TEXT.motion),
+  location:  Object.keys(TEXT.location),
+  distance:  Object.keys(TEXT.distance),
+  angle:     Object.keys(TEXT.angle),
+  exposure:  Object.keys(TEXT.exposure),
+  hair:      Object.keys(TEXT.hair),
+  outfit:    Object.keys(TEXT.outfit),
+  noise:     Object.keys(TEXT.noise),
+  motion:    Object.keys(TEXT.motion),
+  body:        Object.keys(TEXT.body),
+  pose:        Object.keys(TEXT.pose),
+  held_item:   Object.keys(TEXT.held_item),
+  time_of_day: Object.keys(TEXT.time_of_day),
 };
 
 function resolveBuiltin(key) {
@@ -940,11 +1076,13 @@ function generate() {
 
 // resultTexts: 各パラメータの解決済みテキストを直接受け取る
 function buildZPrompt(rt, customPart) {
-  return `A candid iPhone snapshot of a young Japanese idol in her everyday life. ${rt.location}. ${rt.distance}. ${rt.angle}. ${rt.outfit}, ${rt.hair}. ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} The photo feels imperfect and unposed: slightly awkward crop, mild smartphone compression, no cinematic lighting or editorial polish. All scene cues are clearly Japanese through environmental details. No readable text or brand logos. photorealistic, snapshot aesthetic, natural skin texture, coherent anatomy.`;
+  const itemPart = rt.held_item ? ` ${rt.held_item}.` : '';
+  return `A candid iPhone snapshot of a young Japanese idol in her everyday life. ${rt.body}. ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart} ${rt.outfit}, ${rt.hair}. ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} The photo feels imperfect and unposed: slightly awkward crop, mild smartphone compression, no cinematic lighting or editorial polish. All scene cues are clearly Japanese through environmental details. No readable text or brand logos. photorealistic, snapshot aesthetic, natural skin texture, coherent anatomy.`;
 }
 
 function buildWanPrompt(rt, customPart) {
-  return `A candid iPhone video clip of a young Japanese idol in her everyday life. ${rt.location}. ${rt.distance}. ${rt.angle}. ${rt.outfit}, ${rt.hair}. ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} Natural subtle ambient movement. Authentic Japan setting. Everyday life, no studio polish, no cinematic lighting. Realistic proportions, natural skin, correct hands and fingers.`;
+  const itemPart = rt.held_item ? ` ${rt.held_item}.` : '';
+  return `A candid iPhone video clip of a young Japanese idol in her everyday life. ${rt.body}. ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart} ${rt.outfit}, ${rt.hair}. ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} Natural subtle ambient movement. Authentic Japan setting. Everyday life, no studio polish, no cinematic lighting. Realistic proportions, natural skin, correct hands and fingers.`;
 }
 
 // ══════════════════════════════════════════════
