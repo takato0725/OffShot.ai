@@ -114,6 +114,21 @@
     box-shadow: 0 0 0 3px rgba(155,89,182,.2);
   }
 
+  /* ── Reset all button ── */
+  .btn-reset-all {
+    margin-left: auto;
+    padding: 4px 12px; border-radius: 20px;
+    border: 1.5px solid var(--pink2); background: transparent;
+    color: var(--muted); font-family: 'Comfortaa', sans-serif;
+    font-size: 10px; letter-spacing: 1px; cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .btn-reset-all:hover { background: var(--pink2); color: var(--accent); border-color: var(--pink); }
+
+  /* ── History title ── */
+  .hist-header { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .hist-title { font-size: 11px; color: var(--accent); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+
   /* ── Lock btn ── */
   .lock-btn {
     width: 22px; height: 22px; border-radius: 50%; border: none;
@@ -332,7 +347,7 @@
 
 <!-- パラメータ設定 -->
 <div class="card">
-  <div class="card-title">パラメータ設定</div>
+  <div class="card-title">パラメータ設定 <button class="btn-reset-all" onclick="resetAllParams()">↺ すべてランダムに戻す</button></div>
   <div class="params-grid" id="params-grid"></div>
 </div>
 
@@ -1155,16 +1170,20 @@ function addHistory() {
   const now  = new Date();
   const time = `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
   // バッジとパラメータ状態もスナップショットとして保存
-  const badgesHTML   = document.getElementById('badges').innerHTML;
+  const badgesHTML     = document.getElementById('badges').innerHTML;
   const resultSnapshot = Object.assign({}, lastResult);
-  history.unshift({ time, z: lastZPrompt, wan: lastWanPrompt, badgesHTML, result: resultSnapshot });
+  const title          = makeHistoryTitle(resultSnapshot);
+  history.unshift({ time, z: lastZPrompt, wan: lastWanPrompt, badgesHTML, result: resultSnapshot, title });
   if (history.length > 8) history.pop();
 
   const hl = document.getElementById('history-list');
   hl.innerHTML = history.map((h, i) => `
     <div class="history-item" onclick="restoreHistory(${i})">
-      <div class="hist-time">${h.time}</div>
-      <div class="hist-preview">${h.z.slice(0, 80)}…</div>
+      <div class="hist-header">
+        <span class="hist-time">${h.time}</span>
+        ${h.title ? `<span class="hist-title">${h.title}</span>` : ''}
+      </div>
+      <div class="hist-preview">${h.z.slice(0, 70)}…</div>
     </div>`).join('');
 }
 
@@ -1186,6 +1205,34 @@ function restoreHistory(i) {
   }
 
   resetCopyBtn();
+}
+
+function resetAllParams() {
+  ALL_BUILTIN_KEYS.forEach(key => {
+    const sel = document.getElementById(`sel-${key}`);
+    if (sel) sel.value = 'random';
+    const inp = document.getElementById(`custom-${key}`);
+    if (inp) inp.classList.remove('visible');
+  });
+  customCategories.forEach(cat => {
+    const sel = document.getElementById(`sel-${cat.key}`);
+    if (sel) sel.value = 'random';
+    const inp = document.getElementById(`custom-${cat.key}`);
+    if (inp) inp.classList.remove('visible');
+  });
+}
+
+function makeHistoryTitle(result) {
+  const keysToShow = ['location', 'outfit', 'time_of_day'];
+  const parts = keysToShow.map(key => {
+    const val = result[key];
+    if (!val || val === '__custom__') return null;
+    const param = PARAMS[key];
+    if (!param) return null;
+    const opt = param.options.find(o => o.val === val);
+    return opt ? opt.label : null;
+  }).filter(Boolean);
+  return parts.join(' · ');
 }
 
 function restoreParamsFromResult(savedResult) {
