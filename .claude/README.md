@@ -105,6 +105,24 @@ Z-image / Wan 両対応の、アイドル日常スナップ風プロンプト自
 
 ---
 
+## プロンプト出力形式
+
+生成されるプロンプトは **3セクション構成** です：
+
+```
+{シーン系パラメータ}  【hair: {髪型}. outfit: {服装}】  {テクニカル系パラメータ + 品質タグ}
+```
+
+| セクション | 含まれるパラメータ |
+|---|---|
+| **冒頭（シーン）** | body, expression, makeup, location, time_of_day, distance, angle, pose, held_item, emotion |
+| **中央【】（外見）** | hair + accessory, outfit + color + pattern |
+| **末尾（テクニカル）** | exposure, noise, motion, 品質・スタイルタグ |
+
+セクション間はダブルスペースで区切られ、外見パラメータは `【】` 全角括弧でラベル付けされます。
+
+---
+
 ## 対応モデル
 
 | モデル | 用途 |

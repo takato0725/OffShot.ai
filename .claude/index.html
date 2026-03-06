@@ -1679,39 +1679,47 @@ function generate() {
 
   generateCount++;
   addHistory();
-  if (generateCount > 1) {
-    autoCopyPrompt();
-  } else {
-    resetCopyBtn();
-  }
+  autoCopyPrompt();
 }
 
 function buildZPrompt(rt, customPart) {
-  const itemPart      = rt.held_item    ? ` ${rt.held_item}.`    : '';
-  const accessoryPart = rt.accessory    ? ` ${rt.accessory}.`    : '';
-  const expressionPart= rt.expression   ? ` ${rt.expression}.`   : '';
-  const emotionPart   = rt.emotion      ? ` ${rt.emotion}.`      : '';
-  const makeupPart    = rt.makeup       ? ` ${rt.makeup}.`       : '';
+  const itemPart       = rt.held_item    ? ` ${rt.held_item}.`    : '';
+  const expressionPart = rt.expression   ? ` ${rt.expression}.`   : '';
+  const emotionPart    = rt.emotion      ? ` ${rt.emotion}.`      : '';
+  const makeupPart     = rt.makeup       ? ` ${rt.makeup}.`       : '';
+
+  let hairDesc = rt.hair;
+  if (rt.accessory) hairDesc += `, ${rt.accessory}`;
 
   let outfitDesc = rt.outfit;
   if (rt.outfit_color) outfitDesc += `, ${rt.outfit_color}`;
   if (rt.outfit_pattern) outfitDesc += `, ${rt.outfit_pattern}`;
 
-  return `A candid iPhone snapshot of a young Japanese idol in her everyday life. ${rt.body}.${expressionPart}${makeupPart} ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart} ${outfitDesc}, ${rt.hair}.${accessoryPart}${emotionPart} ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} The photo feels imperfect and unposed: slightly awkward crop, mild smartphone compression, no cinematic lighting or editorial polish. All scene cues are clearly Japanese through environmental details. No readable text or brand logos. photorealistic, snapshot aesthetic, natural skin texture, coherent anatomy.`;
+  const opening = `A candid iPhone snapshot of a young Japanese idol in her everyday life. ${rt.body}.${expressionPart}${makeupPart} ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart}${emotionPart}`;
+  const middle  = `\u3010hair: ${hairDesc}. outfit: ${outfitDesc}\u3011`;
+  const closing = `${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} The photo feels imperfect and unposed: slightly awkward crop, mild smartphone compression, no cinematic lighting or editorial polish. All scene cues are clearly Japanese through environmental details. No readable text or brand logos. photorealistic, snapshot aesthetic, natural skin texture, coherent anatomy.`;
+
+  return `${opening}  ${middle}  ${closing}`;
 }
 
 function buildWanPrompt(rt, customPart) {
-  const itemPart      = rt.held_item    ? ` ${rt.held_item}.`    : '';
-  const accessoryPart = rt.accessory    ? ` ${rt.accessory}.`    : '';
-  const expressionPart= rt.expression   ? ` ${rt.expression}.`   : '';
-  const emotionPart   = rt.emotion      ? ` ${rt.emotion}.`      : '';
-  const makeupPart    = rt.makeup       ? ` ${rt.makeup}.`       : '';
+  const itemPart       = rt.held_item    ? ` ${rt.held_item}.`    : '';
+  const expressionPart = rt.expression   ? ` ${rt.expression}.`   : '';
+  const emotionPart    = rt.emotion      ? ` ${rt.emotion}.`      : '';
+  const makeupPart     = rt.makeup       ? ` ${rt.makeup}.`       : '';
+
+  let hairDesc = rt.hair;
+  if (rt.accessory) hairDesc += `, ${rt.accessory}`;
 
   let outfitDesc = rt.outfit;
   if (rt.outfit_color) outfitDesc += `, ${rt.outfit_color}`;
   if (rt.outfit_pattern) outfitDesc += `, ${rt.outfit_pattern}`;
 
-  return `A candid iPhone video clip of a young Japanese idol in her everyday life. ${rt.body}.${expressionPart}${makeupPart} ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart} ${outfitDesc}, ${rt.hair}.${accessoryPart}${emotionPart} ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} Natural subtle ambient movement. Authentic Japan setting. Everyday life, no studio polish, no cinematic lighting. Realistic proportions, natural skin, correct hands and fingers.`;
+  const opening = `A candid iPhone video clip of a young Japanese idol in her everyday life. ${rt.body}.${expressionPart}${makeupPart} ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart}${emotionPart}`;
+  const middle  = `\u3010hair: ${hairDesc}. outfit: ${outfitDesc}\u3011`;
+  const closing = `${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} Natural subtle ambient movement. Authentic Japan setting. Everyday life, no studio polish, no cinematic lighting. Realistic proportions, natural skin, correct hands and fingers.`;
+
+  return `${opening}  ${middle}  ${closing}`;
 }
 
 function buildJaPrompt(result, customPart) {
