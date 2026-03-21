@@ -1,7 +1,7 @@
-# CLAUDE.md — OffShot.ai
+# CLAUDE.md — LowShot.ai
 
 ## プロジェクト概要
-**OffShot.ai** は、Z-image / Wan 両対応のアイドル日常スナップ風プロンプト自動生成ツールです。
+**LowShot.ai** は、Z-image 対応の超広角ローアングル特化型プロンプト自動生成ツールです。
 純粋な HTML / CSS / JavaScript で構成された単一ファイルアプリ（`index.html`）です。
 
 ## 技術スタック
@@ -12,7 +12,7 @@
 
 ## ファイル構成
 ```
-offshot-ai/
+lowshot-ai/
 ├── index.html   ← アプリ本体（全機能がこの1ファイルに集約）
 ├── README.md
 └── CLAUDE.md
@@ -23,11 +23,11 @@ offshot-ai/
 ### データ定義
 - **`PARAMS`** オブジェクト — 各パラメータのラベルと選択肢（日本語UI用）
 - **`TEXT`** オブジェクト — 各パラメータの英語プロンプトテキストマップ
-- 組み込みパラメータ: `location`, `distance`, `angle`, `exposure`, `hair`, `outfit`, `noise`, `motion`
+- 組み込みパラメータ: `location`, `lens`, `angle`, `foreground_object`, `leading_lines`, `face_skin`, `hair`, `outfit_top`, `outfit_bottom`, `shoes`, `accessories`, `pose`, `leg_action`, `gaze`, `lighting`, `mood`
 
 ### プロンプト生成関数
 - `buildZPrompt(rt, customPart)` — Z-image 用プロンプトを組み立て
-- `buildWanPrompt(rt, customPart)` — Wan 用プロンプトを組み立て
+- `buildJaPrompt(result, customPart)` — 和訳プロンプトを組み立て
 - `generate()` — UIの状態を読み取りプロンプトを生成・表示
 
 ### カスタムカテゴリ
@@ -38,7 +38,7 @@ offshot-ai/
 
 ### やってよいこと
 - `PARAMS` と `TEXT` にエントリを追加してパラメータを増やす
-- `buildZPrompt` / `buildWanPrompt` のテンプレートを調整する
+- `buildZPrompt` のテンプレートを調整する
 - CSS変数（`:root`）を変更してテーマカラーを調整する
 
 ### やってはいけないこと
@@ -51,4 +51,3 @@ offshot-ai/
 | モデル | 用途 |
 |---|---|
 | **Z-image** | 静止画生成 |
-| **Wan** | 動画生成 |

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OffShot.ai</title>
+<title>LowShot.ai</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -343,11 +343,6 @@
   .btn-copy.copied {
     background: var(--primary); color: white; border-color: var(--primary);
   }
-  .btn-copy.wan-mode { }
-  .btn-copy.wan-mode:hover { border-color: var(--custom-accent); color: var(--custom-accent); }
-  .btn-copy.wan-mode.copied {
-    background: var(--custom-accent); color: white; border-color: var(--custom-accent);
-  }
 
   /* ── History ── */
   .hist-header { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
@@ -533,9 +528,9 @@
 
 <header>
   <div class="header-line"></div>
-  <span class="header-tagline">THE ART OF PROMPTING</span>
-  <h1>OffShot.ai</h1>
-  <p class="header-subtitle">AI美女の日常を、洗練されたプロンプトに昇華する。</p>
+  <span class="header-tagline">LOW ANGLE PROMPT GENERATOR</span>
+  <h1>LowShot.ai</h1>
+  <p class="header-subtitle">超広角ローアングルで魅せる、AI美女プロンプト自動生成。</p>
   <div class="header-sep"></div>
 </header>
 
@@ -558,9 +553,9 @@
   <div class="card variation-card">
     <div class="card-title">変動コントロール</div>
     <div class="card-title-accent"></div>
-    <input type="range" id="vary-count" min="1" max="10" value="4">
+    <input type="range" id="vary-count" min="1" max="10" value="1">
     <div class="count-display">
-      <span class="count-number" id="vary-num">4</span>
+      <span class="count-number" id="vary-num">1</span>
       <span class="count-label">項目をランダム変動</span>
     </div>
     <div class="luxury-tip">
@@ -575,15 +570,11 @@
 
     <div class="output-tabs">
       <button class="output-tab active" id="tab-z" onclick="switchOutputTab('z')">Z-Image</button>
-      <button class="output-tab" id="tab-wan" onclick="switchOutputTab('wan')">Wan Video</button>
       <button class="output-tab" id="tab-ja" onclick="switchOutputTab('ja')">和訳</button>
     </div>
 
     <div class="output-area active" id="out-z">
       <span class="output-placeholder">ここに Z-image 用プロンプトが表示されます</span>
-    </div>
-    <div class="output-area" id="out-wan">
-      <span class="output-placeholder">ここに Wan 用プロンプトが表示されます</span>
     </div>
     <div class="output-area" id="out-ja">
       <span class="output-placeholder">生成されたプロンプトの和訳がここに表示されます</span>
@@ -654,275 +645,213 @@ const PARAMS = {
   location: {
     label: 'ロケーション',
     options: [
-      { val:'random',      label:'ランダム' },
-      { val:'station',     label:'駅ホーム' },
-      { val:'convenience', label:'コンビニ' },
-      { val:'backstage',   label:'バックステージ廊下' },
-      { val:'cafe',        label:'カフェ' },
-      { val:'taxi',        label:'深夜タクシー' },
-      { val:'rain',        label:'雨の歩道' },
-      { val:'vending',     label:'自販機前' },
-      { val:'studio',      label:'スタジオ廊下' },
-      { val:'rehearsal',   label:'リハーサル休憩' },
-      { val:'rooftop',     label:'ビル屋上' },
-      { val:'park',        label:'公園ベンチ' },
-      { val:'beach',       label:'ビーチ・海岸' },
-      { val:'pool',        label:'プールサイド' },
-      { val:'izakaya',     label:'居酒屋' },
-      { val:'bus',         label:'バス車内' },
-      { val:'airport',     label:'空港ターミナル' },
-      { val:'festival',    label:'夏祭り会場' },
-      { val:'library',     label:'図書館' },
-      { val:'mall',        label:'ショッピングモール' },
-      { val:'classroom',   label:'教室・学校廊下' },
-      { val:'onsen',       label:'温泉・銭湯' },
-      { val:'shrine',      label:'神社・寺' },
-      { val:'subway',      label:'地下鉄車内' },
-      { val:'hotel',       label:'ホテルロビー' },
-      { val:'gym',         label:'ジム・トレーニング室' },
-      { val:'karaoke',     label:'カラオケルーム' },
+      { val:'random',           label:'ランダム' },
+      { val:'spiral_staircase', label:'白い螺旋階段' },
+      { val:'cafe_corner',      label:'レトロカフェ' },
+      { val:'urban_courtyard',  label:'狭い中庭' },
+      { val:'factory',          label:'廃工場' },
+      { val:'antique_study',    label:'アンティーク書斎' },
+      { val:'indoor_stairwell', label:'パステルブルーの階段室' },
+      { val:'quiet_hallway',    label:'クリーム色の廊下' },
+      { val:'concrete_landing', label:'コンクリート踊り場' },
     ]
   },
-  time_of_day: {
-    label: '時間帯',
-    options: [
-      { val:'random',        label:'ランダム' },
-      { val:'early_morning', label:'早朝（夜明け前後）' },
-      { val:'morning',       label:'朝（通勤・通学時間）' },
-      { val:'noon',          label:'昼（正午前後）' },
-      { val:'afternoon',     label:'午後（日中）' },
-      { val:'evening',       label:'夕方（黄金の時間）' },
-      { val:'night',         label:'夜（日没後）' },
-      { val:'late_night',    label:'深夜（静寂）' },
-    ]
-  },
-  exposure: {
-    label: 'ライティング',
-    options: [
-      { val:'random',  label:'ランダム' },
-      { val:'overexp', label:'ほんのり飛び気味' },
-      { val:'natural', label:'ナチュラル昼光' },
-      { val:'warm',    label:'夕方オレンジ' },
-      { val:'cool',    label:'蛍光灯・青白い' },
-      { val:'dark',    label:'夜・暗め・ノイズ多め' },
-      { val:'neon',    label:'ネオンライト' },
-      { val:'candle',  label:'キャンドル・暖色' },
-    ]
-  },
-  outfit: {
-    label: 'ファッション',
-    options: [
-      { val:'random',    label:'ランダム' },
-      { val:'casual',    label:'カジュアル普段着' },
-      { val:'stage_off', label:'ステージ衣装（ダウンタイム）' },
-      { val:'jersey',    label:'ジャージ・スウェット' },
-      { val:'knit',      label:'ニット・ゆるめ' },
-      { val:'uniform',   label:'グループTシャツ' },
-      { val:'coat',      label:'アウター（コート）' },
-      { val:'bikini',    label:'ビキニ水着' },
-      { val:'swimsuit',  label:'ワンピース水着' },
-      { val:'yukata',    label:'浴衣' },
-      { val:'dress',     label:'ワンピース・ドレス' },
-      { val:'shorts',    label:'ショートパンツ' },
-      { val:'sportsbra', label:'スポーツブラ' },
-      { val:'tanktop',   label:'タンクトップ' },
-      { val:'blazer',    label:'ブレザー・ジャケット' },
-      { val:'pajama',    label:'パジャマ・ルームウェア' },
-      { val:'seifuku',   label:'制服（セーラー/ブレザー）' },
-      { val:'apron',     label:'エプロン' },
-    ]
-  },
-  outfit_color: {
-    label: '衣装カラー',
+  lens: {
+    label: 'レンズ',
     options: [
       { val:'random', label:'ランダム' },
-      { val:'none',   label:'指定なし' },
-      { val:'white',  label:'白' },
-      { val:'black',  label:'黒' },
-      { val:'red',    label:'赤' },
-      { val:'blue',   label:'青' },
-      { val:'pink',   label:'ピンク' },
-      { val:'beige',  label:'ベージュ' },
-      { val:'navy',   label:'ネイビー' },
-      { val:'green',  label:'グリーン' },
-      { val:'yellow', label:'イエロー' },
-      { val:'gray',   label:'グレー' },
-      { val:'brown',  label:'ブラウン' },
-      { val:'purple', label:'パープル' },
-    ]
-  },
-  outfit_pattern: {
-    label: '衣装の柄',
-    options: [
-      { val:'random',     label:'ランダム' },
-      { val:'none',       label:'指定なし（無地）' },
-      { val:'leopard',    label:'ヒョウ柄' },
-      { val:'floral',     label:'花柄' },
-      { val:'striped',    label:'ストライプ' },
-      { val:'checkered',  label:'チェック柄' },
-      { val:'polka_dot',  label:'ドット柄' },
-      { val:'lace',       label:'レース' },
-      { val:'camo',       label:'迷彩柄' },
-      { val:'paisley',    label:'ペイズリー' },
-      { val:'tie_dye',    label:'タイダイ' },
-    ]
-  },
-  hair: {
-    label: 'ヘアスタイル',
-    options: [
-      { val:'random',   label:'ランダム' },
-      { val:'ponytail', label:'ポニーテール' },
-      { val:'bun',      label:'お団子・まとめ髪' },
-      { val:'down',     label:'ダウン（おろし）' },
-      { val:'half_up',  label:'ハーフアップ' },
-      { val:'messy',    label:'くしゃっと崩れ' },
-      { val:'wet',      label:'濡れ髪' },
-      { val:'short',    label:'ショートカット' },
-      { val:'bob',      label:'ボブ' },
-      { val:'braid',    label:'三つ編み' },
-      { val:'twin',     label:'ツインテール' },
-      { val:'straight', label:'ストレートロング' },
-      { val:'curly',    label:'巻き髪・ウェーブ' },
-    ]
-  },
-  makeup: {
-    label: 'メイク',
-    options: [
-      { val:'random',    label:'ランダム' },
-      { val:'natural',   label:'ナチュラル' },
-      { val:'bare',      label:'すっぴん風' },
-      { val:'glamorous', label:'しっかりメイク' },
-      { val:'red_lip',   label:'赤リップ' },
-      { val:'smoky',     label:'スモーキーアイ' },
-      { val:'dewy',      label:'ツヤ肌・水光' },
-    ]
-  },
-  accessory: {
-    label: 'アクセサリー',
-    options: [
-      { val:'random',     label:'ランダム' },
-      { val:'none',       label:'なし' },
-      { val:'earrings',   label:'ピアス/イヤリング' },
-      { val:'necklace',   label:'ネックレス' },
-      { val:'glasses',    label:'メガネ' },
-      { val:'sunglasses', label:'サングラス' },
-      { val:'watch',      label:'腕時計' },
-      { val:'hair_clip',  label:'ヘアクリップ' },
-      { val:'hat',        label:'帽子' },
-      { val:'scarf',      label:'マフラー/スカーフ' },
-      { val:'ring',       label:'リング' },
-    ]
-  },
-  expression: {
-    label: '表情',
-    options: [
-      { val:'random',    label:'ランダム' },
-      { val:'smile',     label:'自然な微笑み' },
-      { val:'laugh',     label:'笑い' },
-      { val:'serious',   label:'真剣・クール' },
-      { val:'surprised', label:'驚き' },
-      { val:'sleepy',    label:'眠そう' },
-      { val:'pout',      label:'ぷくっと（ふくれ顔）' },
-      { val:'shy',       label:'はにかみ' },
-      { val:'blank',     label:'無表情・虚ろ' },
-    ]
-  },
-  emotion: {
-    label: '雰囲気',
-    options: [
-      { val:'random',     label:'ランダム' },
-      { val:'relaxed',    label:'リラックス' },
-      { val:'tired',      label:'疲れ気味' },
-      { val:'happy',      label:'ご機嫌' },
-      { val:'melancholy', label:'もの寂しげ' },
-      { val:'focused',    label:'集中' },
-      { val:'playful',    label:'いたずらっぽい' },
-      { val:'dreamy',     label:'夢見心地' },
-    ]
-  },
-  body: {
-    label: '体型',
-    options: [
-      { val:'random',    label:'ランダム' },
-      { val:'slender',   label:'スレンダー' },
-      { val:'glamorous', label:'グラマー' },
-      { val:'slim_avg',  label:'細め普通体型' },
-      { val:'athletic',  label:'スポーティ' },
-      { val:'petite',    label:'小柄・華奢' },
-    ]
-  },
-  distance: {
-    label: 'ショット距離',
-    options: [
-      { val:'random',        label:'ランダム' },
-      { val:'extreme_close', label:'超クローズアップ（顔のみ）' },
-      { val:'close',         label:'近距離（胸〜顔）' },
-      { val:'bust',          label:'バストアップ' },
-      { val:'mid',           label:'中距離（半身）' },
-      { val:'far',           label:'遠め（全身）' },
-      { val:'candid',        label:'盗撮気味（望遠圧縮）' },
+      { val:'16mm',   label:'超ワイド（大迫力）' },
+      { val:'18mm',   label:'ワイド（ドラマチック）' },
+      { val:'20mm',   label:'広角（バランス型）' },
+      { val:'24mm',   label:'やや広角（自然な広がり）' },
+      { val:'35mm',   label:'標準寄り（ナチュラル）' },
     ]
   },
   angle: {
     label: 'アングル',
     options: [
-      { val:'random', label:'ランダム' },
-      { val:'eye',    label:'目線（自然体）' },
-      { val:'low',    label:'ローアングル' },
-      { val:'high',   label:'ハイアングル（自撮り気味）' },
-      { val:'side',   label:'横顔・斜め後ろ' },
-      { val:'back',   label:'後ろ姿' },
-      { val:'dutch',  label:'ダッチアングル（斜め）' },
+      { val:'random',       label:'ランダム' },
+      { val:'worms_eye',    label:'虫の目（超ローアングル）' },
+      { val:'ultra_low',    label:'超低アングル' },
+      { val:'dramatic_low', label:'ドラマチック低アングル' },
+      { val:'ground_level', label:'地面レベル（見上げ）' },
+      { val:'floor_worms',  label:'床レベル虫の目' },
+    ]
+  },
+  foreground_object: {
+    label: '前景オブジェクト',
+    options: [
+      { val:'random',        label:'ランダム' },
+      { val:'patent_heel',   label:'パテントレザーヒール' },
+      { val:'shoe_toe',      label:'靴のつま先' },
+      { val:'stair_edge',    label:'階段の縁' },
+      { val:'table_corner',  label:'テーブルの角' },
+      { val:'railing_post',  label:'手すりの支柱' },
+      { val:'rusted_beam',   label:'錆びた鉄骨の縁' },
+      { val:'platform_heel', label:'光沢プラットフォームヒール' },
+    ]
+  },
+  leading_lines: {
+    label: 'リーディングライン',
+    options: [
+      { val:'random',              label:'ランダム' },
+      { val:'staircase_railings',  label:'螺旋階段の手すり' },
+      { val:'vertical_walls',      label:'狭い垂直の壁' },
+      { val:'steel_beams',         label:'繰り返す鉄骨' },
+      { val:'table_booth',         label:'テーブルとブースの線' },
+      { val:'handrails_stairs',    label:'手すりと階段の幾何学' },
+      { val:'corridor_lines',      label:'廊下の壁と天井の線' },
+      { val:'building_facades',    label:'密集した建物のファサード' },
+    ]
+  },
+  face_skin: {
+    label: '顔・肌',
+    options: [
+      { val:'random',           label:'ランダム' },
+      { val:'delicate_smooth',  label:'繊細な顔立ち・なめらか肌' },
+      { val:'refined_soft',     label:'整った顔立ち・柔らか肌' },
+      { val:'natural_luminous', label:'自然な繊細さ・透明感' },
+      { val:'gentle_natural',   label:'穏やかな顔立ち・自然肌' },
+      { val:'clear_textured',   label:'くっきり繊細・ナチュラル質感' },
+    ]
+  },
+  hair: {
+    label: 'ヘアスタイル',
+    options: [
+      { val:'random',                label:'ランダム' },
+      { val:'platinum_bob',          label:'プラチナブロンドボブ' },
+      { val:'dark_brown_wavy',       label:'ダークブラウンウェーブ' },
+      { val:'straight_black_fringe', label:'黒ストレート・前髪' },
+      { val:'soft_ponytail',         label:'柔らかポニーテール' },
+      { val:'messy_short_bob',       label:'メッシーショートボブ' },
+      { val:'chestnut_bangs',        label:'チェスナットブラウン・エアリー前髪' },
+      { val:'straight_black_tucked', label:'黒ストレート・耳掛け' },
+      { val:'brown_ponytail',        label:'ブラウンポニーテール' },
+    ]
+  },
+  outfit_top: {
+    label: 'トップス',
+    options: [
+      { val:'random',              label:'ランダム' },
+      { val:'cream_offshoulder',   label:'クリームオフショルダー' },
+      { val:'sheer_lace',          label:'シアーアイボリーレースブラウス' },
+      { val:'sundress_bodice',     label:'オフホワイトサンドレス（上身頃）' },
+      { val:'gothic_velvet',       label:'ゴシック黒ベルベットレーストップ' },
+      { val:'knit_offshoulder',    label:'クリームニット・オフショルダー' },
+      { val:'white_lace_blouse',   label:'白ブラウス・レーストリム' },
+      { val:'charcoal_offshoulder',label:'チャコールオフショルダーニット' },
+      { val:'beige_draped',        label:'ベージュドレープトップ' },
+      { val:'bikini_top',          label:'ビキニトップ' },
+      { val:'lingerie_bralette',   label:'ブラレット（ランジェリー）' },
+    ]
+  },
+  outfit_bottom: {
+    label: 'ボトムス / ドレス',
+    options: [
+      { val:'random',              label:'ランダム' },
+      { val:'black_pleated',       label:'黒プリーツミニスカート' },
+      { val:'forest_green_mini',   label:'深緑ミニスカート' },
+      { val:'gothic_velvet_dress', label:'ゴシックベルベットレースドレス' },
+      { val:'airy_sundress',       label:'エアリーオフホワイトサンドレス' },
+      { val:'black_slit_dress',    label:'黒ドレス・ハイスリット' },
+      { val:'linen_shorts',        label:'リネンショートパンツ' },
+      { val:'charcoal_mini',       label:'チャコールミニスカート' },
+      { val:'ivory_midi',          label:'アイボリーミディドレス' },
+      { val:'bikini_bottom',       label:'ビキニボトム' },
+      { val:'one_piece_swimsuit',  label:'ワンピース水着' },
+      { val:'lace_lingerie',       label:'レースランジェリー' },
+    ]
+  },
+  shoes: {
+    label: 'シューズ',
+    options: [
+      { val:'random',        label:'ランダム' },
+      { val:'neon_orange',   label:'ネオンオレンジ スティレット' },
+      { val:'emerald_green', label:'エメラルドグリーン スティレット' },
+      { val:'ruby_red',      label:'ルビーレッド ヒール' },
+      { val:'peacock_blue',  label:'ピーコックブルー スティレット' },
+      { val:'bright_yellow', label:'ブライトイエロー ヒール' },
+      { val:'baby_blue',     label:'ベビーブルー ヒール' },
+      { val:'black_glossy',  label:'ブラック グロッシーヒール' },
+      { val:'wine_red',      label:'ワインレッド アンクルストラップ' },
+    ]
+  },
+  accessories: {
+    label: 'アクセサリー',
+    options: [
+      { val:'random',         label:'ランダム' },
+      { val:'silver_cross',   label:'シルバーピアス＋クロスネックレス' },
+      { val:'hoops_chain',    label:'シルバーフープ＋細チェーン' },
+      { val:'silver_pendant', label:'シルバーピアス＋ペンダント' },
+      { val:'lace_cross',     label:'レース＋シルバーピアス＋クロス' },
+      { val:'minimal_silver', label:'ミニマルシルバー＋細ネックレス' },
+      { val:'small_cross',    label:'小さなシルバーピアス＋クロス' },
     ]
   },
   pose: {
     label: 'ポーズ',
     options: [
-      { val:'random',        label:'ランダム' },
-      { val:'natural_stand', label:'自然な立ち姿' },
-      { val:'sitting',       label:'座り（床・ベンチ）' },
-      { val:'walking',       label:'歩き途中' },
-      { val:'phone',         label:'スマホ操作中' },
-      { val:'wall_lean',     label:'壁もたれ' },
-      { val:'crouch',        label:'しゃがみ' },
-      { val:'look_back',     label:'振り返り' },
-      { val:'stretch',       label:'伸び・ストレッチ' },
+      { val:'random',      label:'ランダム' },
+      { val:'sit_steps',   label:'階段に座る（リラックス）' },
+      { val:'lean_wall',   label:'壁にもたれる' },
+      { val:'kneel',       label:'膝をつく（端正）' },
+      { val:'recline',     label:'斜めにもたれる' },
+      { val:'lounge_booth',label:'ブースでくつろぐ' },
+      { val:'stand_close', label:'カメラに近づいて立つ' },
+      { val:'rest_step',   label:'段に片足を置いて休む' },
     ]
   },
-  held_item: {
-    label: '持ち物',
+  leg_action: {
+    label: '脚のアクション',
     options: [
-      { val:'random',     label:'ランダム' },
-      { val:'none',       label:'なし' },
-      { val:'smartphone', label:'スマホ' },
-      { val:'bottle',     label:'ペットボトル' },
-      { val:'coffee',     label:'コーヒーカップ' },
-      { val:'umbrella',   label:'傘' },
-      { val:'bag',        label:'バッグ' },
-      { val:'towel',      label:'タオル' },
-      { val:'script',     label:'台本・楽譜' },
-      { val:'ice_cream',  label:'アイスクリーム' },
-      { val:'fan',        label:'うちわ・扇子' },
+      { val:'random',          label:'ランダム' },
+      { val:'extend_toward',   label:'片脚をカメラに向けて伸ばす' },
+      { val:'foot_on_table',   label:'つま先をテーブル角に軽く置く' },
+      { val:'heel_close',      label:'ヒールをレンズ近くに上げる' },
+      { val:'legs_foreground', label:'脚が前景を支配' },
+      { val:'step_down',       label:'片足をこちらに踏み出す' },
+      { val:'knee_bent',       label:'片膝曲げ、もう一方を伸ばす' },
+      { val:'shoe_near_lens',  label:'片方の靴がレンズ近く' },
     ]
   },
-  noise: {
-    label: 'ノイズ感',
+  gaze: {
+    label: '視線',
     options: [
-      { val:'random', label:'ランダム' },
-      { val:'low',    label:'少なめ（クリア）' },
-      { val:'mid',    label:'中（スマホ標準）' },
-      { val:'high',   label:'多め（暗所ザラザラ）' },
-      { val:'film',   label:'フィルム粒子感' },
+      { val:'random',             label:'ランダム' },
+      { val:'calm_down',          label:'穏やかに見下ろす' },
+      { val:'quiet_intensity',    label:'静かな強さで見つめる' },
+      { val:'composed_down',      label:'落ち着いてやや下を見る' },
+      { val:'relaxed_commanding', label:'リラックスした威厳' },
+      { val:'subtle_elegance',    label:'繊細な優雅さで見下ろす' },
+      { val:'self_possessed',     label:'自信に満ちた穏やかな視線' },
     ]
   },
-  motion: {
-    label: 'ブレ・ピンボケ',
+  lighting: {
+    label: 'ライティング',
     options: [
-      { val:'random', label:'ランダム' },
-      { val:'sharp',  label:'ほぼシャープ' },
-      { val:'slight', label:'ほんの少し手ブレ' },
-      { val:'motion', label:'被写体ブレ（動いてた）' },
-      { val:'soft',   label:'ふわっとピンボケ' },
+      { val:'random',           label:'ランダム' },
+      { val:'soft_geometric',   label:'柔らかい自然光＋幾何学的な影' },
+      { val:'backlight_rim',    label:'逆光リムライト' },
+      { val:'warm_melancholic', label:'暖かい窓光＋メランコリック' },
+      { val:'dramatic_shafts',  label:'ドラマチックな光の帯' },
+      { val:'skylight_airy',    label:'天窓の柔らかいエアリー光' },
+      { val:'side_warm',        label:'横から暖かい自然光' },
+      { val:'overhead_modern',  label:'頭上からの明るい昼光' },
+    ]
+  },
+  mood: {
+    label: 'ムード',
+    options: [
+      { val:'random',               label:'ランダム' },
+      { val:'modern_architectural', label:'モダン＋建築的' },
+      { val:'melancholic_warm',     label:'メランコリック＋暖かい' },
+      { val:'gothic_noir',          label:'ゴシックノワール' },
+      { val:'industrial_cinematic', label:'インダストリアル＋シネマティック' },
+      { val:'japanese_film',        label:'エアリーな日本映画風' },
+      { val:'dark_academia',        label:'ダークアカデミア' },
+      { val:'quietly_decadent',     label:'静かに退廃的' },
+      { val:'high_fashion',         label:'ハイファッション（地に足あり）' },
+      { val:'soft_atmospheric',     label:'柔らかく大気的' },
     ]
   },
 };
@@ -932,206 +861,152 @@ const PARAMS = {
 // ══════════════════════════════════════════════
 const TEXT = {
   location: {
-    station:     'shot on a crowded train platform in Japan, during peak commute hour, overhead fluorescent light, ceramic tile floors visible below',
-    convenience: 'inside a Japanese convenience store late at night, harsh white LED ceiling lights casting hard shadows, shelving behind her',
-    backstage:   'narrow backstage corridor, exposed cable runs and equipment cases, half-lit from a single pendant light above',
-    cafe:        'small Tokyo café window seat, natural overcast daylight through glass, condensation on a glass nearby',
-    taxi:        'back seat of a late-night taxi, city lights blurring past the window, interior dark except streetlight streaks',
-    rain:        'rainy sidewalk under an umbrella, wet pavement reflections, evening, neon signs diffused in puddles',
-    vending:     'standing beside a vending machine in an alley, machine glow illuminating her face from below, night',
-    studio:      'music rehearsal studio hallway, grey soundproof panels, water bottle on floor beside her',
-    rehearsal:   'rehearsal room downtime, wooden floor, mirrors along one wall, she is seated resting between runs',
-    rooftop:     'building rooftop in urban Tokyo, grey sky, city sprawl blurred far below, laundry pole nearby',
-    park:        'small neighborhood park bench, bare tree branches overhead, midday flat light',
-    beach:       'sandy beach along the Japanese coast, bright midday sun, sea stretching behind her, bare feet on damp sand',
-    pool:        'poolside area, damp concrete, afternoon summer light, lane ropes and calm water in background',
-    izakaya:     'small intimate izakaya booth, warm orange pendant light, wooden slatted wall, late evening, a glass on the table nearby',
-    bus:         'aboard a local city bus, vinyl bench seating, overhead handrail, city scenery blurring past the window',
-    airport:     'domestic airport terminal waiting area, grey speckled carpet, distant departure board glow, carry-on luggage beside her',
-    festival:    'outdoor summer festival grounds at dusk, paper lantern warm light, crowd and food stalls blurred in background',
-    library:     'quiet small library reading room, rows of bookshelves behind her, muted fluorescent overhead light, wooden desk surface',
-    mall:        'indoor shopping mall walkway, bright ceiling lights, shop facades softly out of focus behind her',
-    classroom:   'empty or quiet classroom after school, rows of desks, afternoon light through tall windows, blackboard faintly visible',
-    onsen:       'outdoor hot spring or sento changing area entrance, wooden architecture, steam in the air, warm amber light',
-    shrine:      'traditional Japanese shrine grounds, vermilion torii gate behind her, stone lanterns, filtered sunlight through trees',
-    subway:      'inside a Tokyo subway car, handrails and advertisements above, window showing tunnel darkness, warm interior light',
-    hotel:       'quiet hotel lobby with marble floors and soft ambient lighting, modern minimalist Japanese interior design',
-    gym:         'inside a small gym or training room, rubber floor, mirrors and equipment in background, harsh overhead lights',
-    karaoke:     'inside a karaoke room, colorful mood lighting, microphone nearby, small screen glowing in background',
+    spiral_staircase: 'a white metal spiral staircase inside a minimalist interior',
+    cafe_corner:      'a nostalgic café corner with a teak table and a vintage leather booth',
+    urban_courtyard:  'a narrow urban courtyard surrounded by aging apartment buildings',
+    factory:          'an abandoned industrial factory filled with rusted steel beams',
+    antique_study:    'a dark antique study room with bookshelves and a Persian rug',
+    indoor_stairwell: 'a bright indoor stairwell with curved pastel-blue handrails',
+    quiet_hallway:    'a quiet hallway with cream walls and polished flooring',
+    concrete_landing: 'a modern concrete stair landing with soft daylight from above',
   },
-  time_of_day: {
-    early_morning: 'very early morning, pre-dawn blue-grey light, streets completely empty and silent, faint glow on the horizon',
-    morning:       'bright morning, low-angle east light casting long soft shadows, fresh start-of-day atmosphere',
-    noon:          'midday, harsh direct overhead sunlight or bright flat overcast, peak activity around her',
-    afternoon:     'afternoon daylight, sun lower and slightly warmer, relaxed mid-day lull',
-    evening:       'golden hour, warm orange-pink sky, long dramatic shadows, day winding down',
-    night:         'nighttime, artificial lights dominant, dark sky, streetlights and glowing signs in background',
-    late_night:    'deep late night past midnight, almost no one around, sparse cold artificial light, heavy quiet and fatigue in the air',
-  },
-  exposure: {
-    overexp: 'highlights slightly blown out, cheerful but raw, warm tones',
-    natural: 'clean daylight, balanced exposure, honest colors',
-    warm:    'golden hour orange wash, long soft shadows',
-    cool:    'cold fluorescent white-blue cast, slightly flat contrast',
-    dark:    'underexposed ambient, raised digital noise, practical light sources only',
-    neon:    'vivid neon light wash from signs, bright saturated pinks and blues reflecting on skin',
-    candle:  'warm candlelight ambiance, soft flickering orange glow, deep shadows',
-  },
-  outfit: {
-    casual:    'plain casual clothes, oversized tee or hoodie, jeans, everyday look',
-    stage_off: 'still wearing part of stage costume with a zip-up jacket thrown over, slightly sweaty',
-    jersey:    'group-branded jersey or sweat pants, sporty downtime look',
-    knit:      'loose soft knit sweater, slightly oversized, cozy and relaxed',
-    uniform:   'plain group merch tee, no special styling, pulled together quickly',
-    coat:      'thick winter coat, scarf bundled around neck, cold exhale visible in air',
-    bikini:    'wearing a bikini, colorful or minimal two-piece swimsuit, summer beach or pool implied',
-    swimsuit:  'wearing a one-piece swimsuit, form-fitting, at poolside or beach context implied',
-    yukata:    'wearing a summer yukata with casual obi, traditional Japanese summer garment, wooden geta sandals implied',
-    dress:     'wearing a casual sundress or everyday dress, light fabric, natural feminine silhouette',
-    shorts:    'wearing denim shorts or casual short pants, simple top tucked or left loose',
-    sportsbra: 'wearing a sports bra and high-waist leggings or joggers, post-workout or warm-up look',
-    tanktop:   'wearing a basic fitted tank top and simple bottoms, minimal casual summer style',
-    blazer:    'wearing a tailored blazer over a simple top, smart casual, slightly polished look',
-    pajama:    'wearing soft pajama set or cozy room wear, relaxed at-home vibe',
-    seifuku:   'wearing a Japanese school uniform, sailor collar or blazer style, pleated skirt',
-    apron:     'wearing a simple apron over casual clothes, domestic or café worker feel',
-  },
-  outfit_color: {
-    none:   '',
-    white:  'in white',
-    black:  'in black',
-    red:    'in red',
-    blue:   'in blue',
-    pink:   'in pink',
-    beige:  'in beige',
-    navy:   'in navy blue',
-    green:  'in green',
-    yellow: 'in yellow',
-    gray:   'in gray',
-    brown:  'in brown',
-    purple: 'in purple',
-  },
-  outfit_pattern: {
-    none:      '',
-    leopard:   'with bold leopard print pattern',
-    floral:    'with feminine floral print pattern',
-    striped:   'with clean vertical stripe pattern',
-    checkered: 'with checkered plaid pattern',
-    polka_dot: 'with polka dot pattern',
-    lace:      'with delicate lace fabric details',
-    camo:      'with military camouflage pattern',
-    paisley:   'with paisley print pattern',
-    tie_dye:   'with tie-dye pattern',
-  },
-  hair: {
-    ponytail: 'hair in a loose ponytail, a few strands fallen loose around the face',
-    bun:      'casual messy bun, hurriedly pinned, a few wisps escaping',
-    down:     'hair down and natural, slightly uncombed-looking',
-    half_up:  'half-up style, rest of hair loose below',
-    messy:    'hair slightly disheveled, like after a long rehearsal or tired afternoon',
-    wet:      'damp hair from recent shower or rain, slightly darker and clinging to neck',
-    short:    'short haircut above the ears, back of the neck exposed, clean and fresh look',
-    bob:      'clean jaw-length bob cut, slightly asymmetric ends, naturally straight',
-    braid:    'loose single side braid or casual twin braids, a few strands loose around the face',
-    twin:     'high twin tails, slightly asymmetric and relaxed, youthful and energetic style',
-    straight: 'long straight hair flowing down past shoulders, sleek and glossy, minimal styling',
-    curly:    'soft wavy curls or loose waves, voluminous and natural-looking',
-  },
-  makeup: {
-    natural:   'light natural makeup, subtle tones, fresh and clean look',
-    bare:      'almost bare-faced, minimal to no visible makeup, raw and honest look',
-    glamorous: 'full makeup with defined eyes and contoured cheeks, polished and put-together look',
-    red_lip:   'bold red lipstick as the focal point, otherwise understated makeup',
-    smoky:     'smoky eye makeup, slightly dramatic dark tones around the eyes',
-    dewy:      'dewy glass-skin finish, luminous highlight on cheekbones, fresh hydrated look',
-  },
-  accessory: {
-    none:       '',
-    earrings:   'wearing small delicate earrings',
-    necklace:   'wearing a thin chain necklace with a small pendant',
-    glasses:    'wearing round or rectangular glasses',
-    sunglasses: 'wearing fashionable sunglasses',
-    watch:      'wearing a casual wristwatch',
-    hair_clip:  'with a decorative hair clip or pin in her hair',
-    hat:        'wearing a casual cap or bucket hat',
-    scarf:      'with a scarf or muffler loosely around her neck',
-    ring:       'wearing a delicate ring on her finger',
-  },
-  expression: {
-    smile:     'gentle natural smile, soft expression, lips slightly curved upward',
-    laugh:     'laughing openly, teeth visible, eyes crinkled with genuine joy',
-    serious:   'serious calm expression, steady gaze, composed and cool',
-    surprised: 'slightly surprised expression, eyes widened, mouth slightly open',
-    sleepy:    'drowsy half-lidded eyes, slightly unfocused gaze, tired but endearing',
-    pout:      'playful pouting lips, slightly puffed cheeks, cute sulky expression',
-    shy:       'bashful shy expression, eyes slightly averted, faint blush implied',
-    blank:     'blank unfocused stare, empty expression, distant and absent look',
-  },
-  emotion: {
-    relaxed:    'relaxed and at ease, unhurried body language',
-    tired:      'slightly fatigued, end-of-day tiredness showing subtly',
-    happy:      'cheerful bright mood, positive energy radiating naturally',
-    melancholy: 'quietly melancholic, wistful distant look, gentle sadness',
-    focused:    'deeply focused and absorbed, sharp attentive eyes',
-    playful:    'playfully mischievous energy, lighthearted and teasing vibe',
-    dreamy:     'dreamy distant gaze, lost in thought, soft ethereal atmosphere',
-  },
-  body: {
-    slender:   'slender and slim build, light delicate frame, narrow shoulders, lean limbs',
-    glamorous: 'softly curvaceous and feminine figure, gentle natural curves, graceful silhouette',
-    slim_avg:  'naturally proportioned average-slim build, balanced and unforced body shape',
-    athletic:  'lightly toned and active build, slender with subtle fitness from dance training, healthy and energetic without bulk',
-    petite:    'petite and small-framed, compact height and slight build, delicate proportions',
-  },
-  distance: {
-    extreme_close: 'extreme close-up of face only, fills the entire frame, pores and eyelashes visible, almost uncomfortably intimate',
-    close:         'tight frame from chest to face, fills almost the full frame',
-    bust:          'bust-up framing from waist to face, slightly loose, natural portrait distance',
-    mid:           'half-body shot, loose framing, some dead space around her',
-    far:           'full body visible, surrounded by environment, she appears smaller in frame',
-    candid:        'slightly telephoto compressed look, shot from across the space as if she did not notice',
+  lens: {
+    '16mm': 'ultra-wide-angle 16mm',
+    '18mm': 'dramatic 18mm wide-angle',
+    '20mm': 'wide-angle 20mm',
+    '24mm': 'ultra-wide-angle 24mm',
+    '35mm': 'low 35mm wide-angle',
   },
   angle: {
-    eye:   'straight-on eye-level angle, slightly awkward composition as if snapped quickly',
-    low:   'low camera angle looking slightly up, slightly unflattering casual feel',
-    high:  'slightly high angle as if taken from her own height or slightly above, natural selfie-adjacent',
-    side:  'three-quarter or side profile, she is looking away',
-    back:  'rear view, her face not visible, intimate mundane feel',
-    dutch: 'slight dutch angle tilt, off-kilter composition, dynamic casual energy',
+    worms_eye:    "extreme worm's-eye",
+    ultra_low:    'ultra-low-angle',
+    dramatic_low: 'dramatic low-angle',
+    ground_level: 'ground-level upward-looking',
+    floor_worms:  "floor-level worm's-eye",
+  },
+  foreground_object: {
+    patent_heel:   'a patent leather heel',
+    shoe_toe:      'a pointed shoe toe',
+    stair_edge:    'a stair edge',
+    table_corner:  'a table corner',
+    railing_post:  'a railing post',
+    rusted_beam:   'a rusted beam edge',
+    platform_heel: 'a glossy platform heel',
+  },
+  leading_lines: {
+    staircase_railings: 'the curved staircase railings',
+    vertical_walls:     'the narrow vertical walls',
+    steel_beams:        'the repeating steel beams',
+    table_booth:        'the table edge and booth lines',
+    handrails_stairs:   'the handrails and stair geometry',
+    corridor_lines:     'the corridor walls and ceiling lines',
+    building_facades:   'the dense building facades',
+  },
+  face_skin: {
+    delicate_smooth:  'delicate facial features, smooth fair skin',
+    refined_soft:     'refined facial features, soft fair skin',
+    natural_luminous: 'natural delicate features, luminous fair skin',
+    gentle_natural:   'gentle facial features, smooth natural skin',
+    clear_textured:   'clear delicate features, fair skin with natural texture',
+  },
+  hair: {
+    platinum_bob:          'a platinum-blonde bob with soft bangs',
+    dark_brown_wavy:       'long dark brown wavy hair with soft bangs',
+    straight_black_fringe: 'straight black hair with a neat fringe',
+    soft_ponytail:         'a soft ponytail with loose strands framing the face',
+    messy_short_bob:       'a slightly messy chic short bob',
+    chestnut_bangs:        'medium-length chestnut hair with airy bangs',
+    straight_black_tucked: 'long straight black hair tucked behind one ear',
+    brown_ponytail:        'a warm brown ponytail with soft face-framing strands',
+  },
+  outfit_top: {
+    cream_offshoulder:   'a cream off-the-shoulder fitted linen top',
+    sheer_lace:          'a sheer ivory lace blouse',
+    sundress_bodice:     'a soft off-white sundress bodice',
+    gothic_velvet:       'a gothic black velvet upper bodice with lace sleeves',
+    knit_offshoulder:    'a loose creamy knit sweater worn off the shoulder',
+    white_lace_blouse:   'a fitted white blouse with subtle lace trim',
+    charcoal_offshoulder:'a charcoal off-shoulder knit top',
+    beige_draped:        'a soft beige draped top',
+    bikini_top:          'a minimal bikini top',
+    lingerie_bralette:   'a delicate lace bralette',
+  },
+  outfit_bottom: {
+    black_pleated:       'a black high-waisted pleated mini skirt',
+    forest_green_mini:   'a deep forest green mini skirt',
+    gothic_velvet_dress: 'a flowing gothic velvet dress with layered lace',
+    airy_sundress:       'an airy off-white sundress',
+    black_slit_dress:    'a structured black dress with a high slit',
+    linen_shorts:        'loose linen shorts',
+    charcoal_mini:       'a tailored charcoal mini skirt',
+    ivory_midi:          'a soft ivory midi dress',
+    bikini_bottom:       'matching bikini bottoms',
+    one_piece_swimsuit:  'a sleek one-piece swimsuit',
+    lace_lingerie:       'delicate lace lingerie bottoms',
+  },
+  shoes: {
+    neon_orange:   'neon orange patent leather platform ankle-strap stilettos',
+    emerald_green: 'emerald green patent platform stilettos',
+    ruby_red:      'ruby red patent leather platform heels',
+    peacock_blue:  'peacock blue leather stilettos',
+    bright_yellow: 'bright yellow patent platform heels',
+    baby_blue:     'soft baby-blue patent heels',
+    black_glossy:  'black glossy platform heels',
+    wine_red:      'deep wine-red ankle-strap stilettos',
+  },
+  accessories: {
+    silver_cross:   'silver earrings and a cross necklace',
+    hoops_chain:    'small silver hoop earrings and a thin chain necklace',
+    silver_pendant: 'silver earrings and a delicate pendant',
+    lace_cross:     'lace details, silver earrings, and a cross pendant',
+    minimal_silver: 'minimal silver jewelry and a fine necklace',
+    small_cross:    'small silver earrings and a subtle cross necklace',
   },
   pose: {
-    natural_stand: 'standing with relaxed natural posture, weight subtly shifted to one side, arms hanging loosely',
-    sitting:       'seated casually on the floor or a bench, arms resting forward on knees or loosely in lap',
-    walking:       'caught mid-stride, one foot forward, arms mid-swing, candid walking motion',
-    phone:         'focused on her smartphone, thumb scrolling or typing, chin slightly down, absorbed in screen',
-    wall_lean:     'leaning one shoulder against a wall, legs lightly crossed at ankle, arms loosely folded',
-    crouch:        'crouching low, knees together, looking at something near the ground or resting between takes',
-    look_back:     'glancing back over one shoulder, body still mostly turned away, half-profile visible',
-    stretch:       'mid-stretch, arms raised or extended, body slightly arched, natural relaxing movement',
+    sit_steps:   'sits on the steps in a relaxed but confident pose',
+    lean_wall:   'leans against the wall with calm confidence',
+    kneel:       'kneels in a composed posture',
+    recline:     'reclines diagonally against the structure',
+    lounge_booth:'lounges in the booth with one hip subtly tilted',
+    stand_close: 'stands very close to the camera in a controlled fashion pose',
+    rest_step:   'rests on one step with a calm and self-assured posture',
   },
-  held_item: {
-    none:       '',
-    smartphone: 'holding a smartphone in one hand, screen facing her',
-    bottle:     'clutching a clear plastic bottle of tea or mineral water',
-    coffee:     'holding a paper coffee cup or convenience store hot drink',
-    umbrella:   'holding a folded umbrella or a clear vinyl umbrella at her side',
-    bag:        'carrying a tote bag or small shoulder bag in one hand or over her arm',
-    towel:      'holding a small hand towel draped over her shoulder or loosely around her neck',
-    script:     'holding folded papers or a small booklet, studying lines between rehearsal takes',
-    ice_cream:  'holding an ice cream cone or popsicle, casual summer treat',
-    fan:        'holding a traditional hand fan or uchiwa fan, gentle breeze implied',
+  leg_action: {
+    extend_toward:   'one leg extended toward the camera',
+    foot_on_table:   'one foot pressed lightly onto the table corner',
+    heel_close:      'one heel lifted close to the lens',
+    legs_foreground: 'her body receding into the background while her legs dominate the foreground',
+    step_down:       'one foot stepping downward toward the viewer',
+    knee_bent:       'one knee bent while the other leg stretches toward the camera',
+    shoe_near_lens:  'one shoe placed near the lens while the other foot supports her balance',
   },
-  noise: {
-    low:  'minimal sensor noise, fairly crisp smartphone image quality',
-    mid:  'typical phone noise at standard ISO, fine grain visible at edges',
-    high: 'heavy noise and grain from high ISO, color smearing in shadows',
-    film: 'subtle film-like halation and grain texture, slight color shift',
+  gaze: {
+    calm_down:          'down toward the camera with calm confidence',
+    quiet_intensity:    'directly into the lens with quiet intensity',
+    composed_down:      'slightly downward with a composed expression',
+    relaxed_commanding: 'toward the viewer with a relaxed but commanding look',
+    subtle_elegance:    'down at the viewer with subtle elegance',
+    self_possessed:     'into the camera with a calm and self-possessed expression',
   },
-  motion: {
-    sharp:  'image mostly in focus and sharp',
-    slight: 'faint camera shake, subtle motion trail on edges',
-    motion: 'subject motion blur on hands or hair from mid-motion catch',
-    soft:   'slightly soft focus as if camera missed focus by a bit',
+  lighting: {
+    soft_geometric:   'Soft natural sunlight filters from above, casting geometric shadows and a bright high-key glow',
+    backlight_rim:    'Diffused backlight pours in from overhead, creating a glowing rim light around her silhouette',
+    warm_melancholic: 'Warm window light creates a soft melancholic glow with gentle overexposure',
+    dramatic_shafts:  'Dramatic shafts of sunlight stream through the space, illuminating dust and creating cinematic contrast',
+    skylight_airy:    'A pale skylight glow washes the scene in airy, slightly overexposed softness',
+    side_warm:        'Soft daylight from the side creates a warm natural glow and gentle shadow falloff',
+    overhead_modern:  'Bright overhead daylight produces clean contrast and a modern architectural feel',
+  },
+  mood: {
+    modern_architectural: 'modern and architectural',
+    melancholic_warm:     'melancholic and warm',
+    gothic_noir:          'gothic noir',
+    industrial_cinematic: 'industrial and cinematic',
+    japanese_film:        'airy Japanese film mood',
+    dark_academia:        'dark academia',
+    quietly_decadent:     'quietly decadent',
+    high_fashion:         'high-fashion but grounded',
+    soft_atmospheric:     'soft and atmospheric',
   },
 };
 
@@ -1140,190 +1015,152 @@ const TEXT = {
 // ══════════════════════════════════════════════
 const JA = {
   location: {
-    station:'混雑した日本の駅ホーム、通勤ラッシュ時、蛍光灯の光、足元にタイル張りの床',
-    convenience:'深夜の日本のコンビニ店内、天井の白色LEDが硬い影を落とし、背後に棚',
-    backstage:'狭いバックステージの廊下、ケーブルや機材ケースが露出、頭上のペンダントライトのみ',
-    cafe:'東京の小さなカフェの窓際席、曇り空の自然光がガラス越しに差し込む',
-    taxi:'深夜タクシーの後部座席、窓の外を流れる街灯、車内は暗く街灯の筋だけ',
-    rain:'雨の歩道、傘の下、濡れた路面の反射、夕方、水たまりに滲むネオン',
-    vending:'路地裏の自販機の横、自販機の光が下から顔を照らす、夜',
-    studio:'音楽リハーサルスタジオの廊下、灰色の防音パネル、足元にペットボトル',
-    rehearsal:'リハーサル室の休憩中、木の床、壁一面の鏡、座って休んでいる',
-    rooftop:'東京のビル屋上、灰色の空、遠くにぼやける都市の広がり',
-    park:'近所の小さな公園のベンチ、頭上に枯れ枝、昼間のフラットな光',
-    beach:'日本の海岸沿いの砂浜、真昼の明るい太陽、背後に広がる海、湿った砂の上に素足',
-    pool:'プールサイド、湿ったコンクリート、夏の午後の光、背景にコースロープと穏やかな水面',
-    izakaya:'小さな居酒屋の個室、暖かいオレンジ色のペンダントライト、木の壁、深夜',
-    bus:'市内バスの車内、ビニール張りの座席、天井のつり革、窓を流れる街の景色',
-    airport:'国内線空港ターミナルの待合エリア、灰色のカーペット、遠くの出発案内板の光',
-    festival:'夕暮れの夏祭り会場、提灯の温かい光、背景にぼやける人混みと屋台',
-    library:'静かな小さな図書館の閲覧室、背後に本棚の列、控えめな蛍光灯、木の机',
-    mall:'屋内ショッピングモールの通路、明るい天井照明、背後にぼやける店舗',
-    classroom:'放課後の静かな教室、机の列、窓から差す午後の光、うっすら見える黒板',
-    onsen:'露天風呂または銭湯の脱衣所入口、木造建築、湯気、暖かい琥珀色の光',
-    shrine:'日本の伝統的な神社の境内、背後に朱色の鳥居、石灯籠、木漏れ日',
-    subway:'東京の地下鉄車内、つり革と頭上の広告、窓にはトンネルの闇、車内の暖かい光',
-    hotel:'大理石の床と柔らかい間接照明のホテルロビー、モダンなミニマリストの和風インテリア',
-    gym:'小さなジム内、ゴム製の床、背景に鏡とトレーニング機器、強い頭上照明',
-    karaoke:'カラオケルーム内、カラフルなムード照明、近くにマイク、背景に光る小さな画面',
+    spiral_staircase:'ミニマリストな内装の白い螺旋階段',
+    cafe_corner:'チーク材のテーブルとヴィンテージレザーブースのあるレトロカフェ',
+    urban_courtyard:'古いアパートに囲まれた狭い都市の中庭',
+    factory:'錆びた鉄骨が並ぶ廃工場',
+    antique_study:'本棚とペルシャ絨毯のある暗いアンティーク書斎',
+    indoor_stairwell:'パステルブルーの曲線手すりがある明るい室内階段',
+    quiet_hallway:'クリーム色の壁と磨かれた床の静かな廊下',
+    concrete_landing:'上から柔らかな日差しが差すモダンなコンクリート踊り場',
   },
-  time_of_day: {
-    early_morning:'早朝、夜明け前の青灰色の光、完全に静まり返った通り、地平線にかすかな明かり',
-    morning:'明るい朝、低い角度の東光が長く柔らかい影を落とす、一日の始まりの空気',
-    noon:'真昼、強い直射日光または明るいフラットな曇り空',
-    afternoon:'午後の日差し、太陽がやや低くなり少し暖かく、リラックスした午後のひととき',
-    evening:'ゴールデンアワー、暖かいオレンジとピンクの空、長いドラマチックな影',
-    night:'夜、人工照明が支配的、暗い空、背景に街灯と光る看板',
-    late_night:'深夜0時過ぎ、ほとんど人がいない、まばらで冷たい人工照明、重い静寂と疲労感',
-  },
-  exposure: {
-    overexp:'ハイライトがわずかに飛び気味、明るいが生々しい、暖色系',
-    natural:'きれいな自然光、バランスの取れた露出、素直な色味',
-    warm:'ゴールデンアワーのオレンジ色に染まり、長く柔らかい影',
-    cool:'蛍光灯の白青い光、やや平坦なコントラスト',
-    dark:'露出アンダーの環境光、デジタルノイズが増幅、実用的な光源のみ',
-    neon:'看板からのビビッドなネオン光、肌に反射する鮮やかなピンクとブルー',
-    candle:'暖かいキャンドルライトの雰囲気、揺れるオレンジ色の光、深い影',
-  },
-  outfit: {
-    casual:'普段着のカジュアル、オーバーサイズTシャツかパーカー、ジーンズ',
-    stage_off:'ステージ衣装の一部にジップアップジャケットを羽織り、やや汗ばんでいる',
-    jersey:'グループブランドのジャージやスウェットパンツ、スポーティな休憩ルック',
-    knit:'ゆるめのソフトニットセーター、やや大きめ、居心地良くリラックス',
-    uniform:'無地のグループTシャツ、特別なスタイリングなし、急いでまとめた感じ',
-    coat:'厚手の冬コート、首にぐるぐる巻きのマフラー、白い息が見える寒さ',
-    bikini:'ビキニを着用、カラフルまたはミニマルなツーピース水着、夏のビーチかプール',
-    swimsuit:'ワンピース水着を着用、体にフィット、プールサイドまたはビーチ',
-    yukata:'カジュアルな帯の夏浴衣を着用、木の下駄を連想',
-    dress:'カジュアルなサンドレスまたは普段着ワンピース、軽い生地、自然なフェミニンシルエット',
-    shorts:'デニムショートパンツまたはカジュアルな短パン、シンプルなトップス',
-    sportsbra:'スポーツブラとハイウエストレギンス、ワークアウト後のルック',
-    tanktop:'ベーシックなフィットタンクトップとシンプルなボトムス、ミニマルな夏スタイル',
-    blazer:'テーラードブレザーにシンプルなトップスを合わせ、スマートカジュアル',
-    pajama:'柔らかいパジャマまたは居心地の良いルームウェア、自宅でくつろぐ雰囲気',
-    seifuku:'日本の制服、セーラー服またはブレザースタイル、プリーツスカート',
-    apron:'カジュアルな服の上にシンプルなエプロン、家庭的またはカフェ店員風',
-  },
-  outfit_color: {
-    none:'', white:'白色の', black:'黒色の', red:'赤色の', blue:'青色の',
-    pink:'ピンク色の', beige:'ベージュ色の', navy:'ネイビーの',
-    green:'グリーンの', yellow:'イエローの', gray:'グレーの',
-    brown:'ブラウンの', purple:'パープルの',
-  },
-  outfit_pattern: {
-    none:'', leopard:'大胆なヒョウ柄', floral:'フェミニンな花柄',
-    striped:'きれいな縦ストライプ', checkered:'チェック柄',
-    polka_dot:'ドット柄', lace:'繊細なレース素材',
-    camo:'ミリタリー迷彩柄', paisley:'ペイズリー柄', tie_dye:'タイダイ柄',
-  },
-  hair: {
-    ponytail:'ルーズなポニーテール、顔まわりに数本ほつれた毛束',
-    bun:'カジュアルなお団子、急いでピン留め、少し毛先がはみ出している',
-    down:'おろした自然な髪、少し無造作な感じ',
-    half_up:'ハーフアップスタイル、残りは下ろしたまま',
-    messy:'少し乱れた髪、長いリハーサルや疲れた午後のあとのよう',
-    wet:'濡れた髪、シャワーか雨の直後、やや暗く首に張り付いている',
-    short:'耳上のショートカット、うなじが見える、清潔でフレッシュ',
-    bob:'顎の長さのきれいなボブカット、やや非対称な毛先、ナチュラルストレート',
-    braid:'ゆるいサイド三つ編み、顔まわりに数本ほつれた毛束',
-    twin:'高めのツインテール、やや非対称でリラックス、若々しくエネルギッシュ',
-    straight:'肩を超えて流れるロングストレートヘア、なめらかで光沢あり',
-    curly:'柔らかなウェーブまたはゆるい巻き髪、ボリューム感がありナチュラル',
-  },
-  makeup: {
-    natural:'軽いナチュラルメイク、控えめなトーン、フレッシュでクリーンな印象',
-    bare:'ほぼすっぴん、メイクはほとんど見えない、生々しく素直な表情',
-    glamorous:'しっかりメイク、はっきりした目元とコントアーチーク、洗練された印象',
-    red_lip:'大胆な赤リップがポイント、それ以外は控えめなメイク',
-    smoky:'スモーキーアイメイク、目元にやや劇的な暗いトーン',
-    dewy:'みずみずしいツヤ肌仕上げ、頬骨に輝くハイライト、フレッシュで潤い感',
-  },
-  accessory: {
-    none:'', earrings:'小さく繊細なピアスを着用',
-    necklace:'細いチェーンに小さなペンダントのネックレスを着用',
-    glasses:'丸型または角型のメガネを着用',
-    sunglasses:'おしゃれなサングラスを着用',
-    watch:'カジュアルな腕時計を着用',
-    hair_clip:'髪に飾りのヘアクリップやピンをつけている',
-    hat:'カジュアルなキャップまたはバケットハットを着用',
-    scarf:'首にゆるくマフラーまたはスカーフを巻いている',
-    ring:'指に繊細なリングを着用',
-  },
-  expression: {
-    smile:'穏やかで自然な微笑み、柔らかな表情、唇がわずかに上向き',
-    laugh:'大きく笑っている、歯が見え、目尻にしわが寄る本物の喜び',
-    serious:'真剣で落ち着いた表情、しっかりとした視線、冷静でクール',
-    surprised:'少し驚いた表情、目が見開かれ、口がわずかに開いている',
-    sleepy:'眠そうな半開きの目、やや焦点の合わない視線、疲れているが愛らしい',
-    pout:'いたずらっぽく唇をとがらせ、わずかに膨らんだ頬、かわいいふくれ顔',
-    shy:'恥ずかしそうな表情、やや視線を逸らし、ほのかな赤み',
-    blank:'無表情でぼんやりした視線、空虚な表情、遠くを見つめる',
-  },
-  emotion: {
-    relaxed:'リラックスして落ち着いている、急がないボディランゲージ',
-    tired:'少し疲れている、一日の終わりの疲労感がほのかに見える',
-    happy:'明るく陽気なムード、自然にあふれるポジティブなエネルギー',
-    melancholy:'静かにもの寂しげ、遠くを見つめる物憂い表情、穏やかな悲しみ',
-    focused:'深く集中し没頭している、鋭く注意深い目',
-    playful:'遊び心のあるいたずらっぽいエネルギー、軽快でからかうような雰囲気',
-    dreamy:'夢見るような遠い視線、物思いに耽っている、柔らかく幻想的な雰囲気',
-  },
-  body: {
-    slender:'スレンダーでスリムな体型、軽く華奢なフレーム、細い肩、すらりとした手足',
-    glamorous:'柔らかく女性らしい曲線、自然で優美なシルエット',
-    slim_avg:'自然なプロポーションのやや細めの普通体型、バランスが取れた体形',
-    athletic:'軽く引き締まったアクティブな体型、ダンストレーニングによる程よいフィット感',
-    petite:'小柄で華奢なフレーム、コンパクトな身長と細い体つき、繊細なプロポーション',
-  },
-  distance: {
-    extreme_close:'顔だけの超クローズアップ、フレーム全体を埋める、毛穴やまつ毛が見える親密さ',
-    close:'胸から顔までのタイトなフレーム、ほぼ全体を埋める',
-    bust:'ウエストから顔までのバストアップ、やや余裕のある自然なポートレート距離',
-    mid:'半身ショット、ゆったりしたフレーミング、周囲に余白',
-    far:'全身が見える、環境に囲まれ、フレーム内で小さく見える',
-    candid:'やや望遠で圧縮されたルック、気づかれずに離れた場所から撮影したよう',
+  lens: {
+    '16mm':'超広角16mm（大迫力）',
+    '18mm':'ドラマチック18mm広角',
+    '20mm':'広角20mm（バランス型）',
+    '24mm':'やや広角24mm（自然な広がり）',
+    '35mm':'標準寄り35mm（ナチュラル）',
   },
   angle: {
-    eye:'真正面の目線アングル、急いで撮ったようなやや不格好な構図',
-    low:'低いカメラアングル、やや見上げる形、カジュアルで飾らない感じ',
-    high:'やや高いアングル、自分の身長か少し上から撮影、自撮り風',
-    side:'スリークォーターまたは横顔、視線をそらしている',
-    back:'後ろ姿、顔は見えない、日常的で親密な雰囲気',
-    dutch:'わずかなダッチアングル（傾き）、不安定な構図、ダイナミックなカジュアル感',
+    worms_eye:'超ローアングル虫の目',
+    ultra_low:'超低アングル',
+    dramatic_low:'ドラマチック低アングル',
+    ground_level:'地面レベルから見上げる',
+    floor_worms:'床レベル虫の目',
+  },
+  foreground_object: {
+    patent_heel:'パテントレザーのヒール',
+    shoe_toe:'尖った靴のつま先',
+    stair_edge:'階段の縁',
+    table_corner:'テーブルの角',
+    railing_post:'手すりの支柱',
+    rusted_beam:'錆びた鉄骨の縁',
+    platform_heel:'光沢のあるプラットフォームヒール',
+  },
+  leading_lines: {
+    staircase_railings:'螺旋階段の手すりの曲線',
+    vertical_walls:'狭い垂直の壁',
+    steel_beams:'繰り返す鉄骨の線',
+    table_booth:'テーブルの縁とブースの線',
+    handrails_stairs:'手すりと階段の幾何学的構造',
+    corridor_lines:'廊下の壁と天井の線',
+    building_facades:'密集した建物のファサード',
+  },
+  face_skin: {
+    delicate_smooth:'繊細な顔立ち、なめらかで白い肌',
+    refined_soft:'整った顔立ち、柔らかく白い肌',
+    natural_luminous:'自然で繊細な造作、透明感のある白い肌',
+    gentle_natural:'穏やかな顔立ち、なめらかで自然な肌',
+    clear_textured:'くっきりとした繊細な造作、自然な質感の白い肌',
+  },
+  hair: {
+    platinum_bob:'ソフトバングスのプラチナブロンドボブ',
+    dark_brown_wavy:'ソフトバングスのダークブラウンロングウェーブ',
+    straight_black_fringe:'きれいな前髪の黒ストレートヘア',
+    soft_ponytail:'顔まわりにほつれ毛が揺れる柔らかいポニーテール',
+    messy_short_bob:'おしゃれに崩したメッシーショートボブ',
+    chestnut_bangs:'エアリーな前髪のチェスナットブラウンミディアム',
+    straight_black_tucked:'片耳にかけた黒ロングストレート',
+    brown_ponytail:'顔まわりを柔らかく包むウォームブラウンポニーテール',
+  },
+  outfit_top: {
+    cream_offshoulder:'クリーム色のオフショルダーリネントップ',
+    sheer_lace:'シアーなアイボリーレースブラウス',
+    sundress_bodice:'オフホワイトのサンドレス上身頃',
+    gothic_velvet:'レース袖のゴシック黒ベルベットボディス',
+    knit_offshoulder:'オフショルダーに着たクリーミーなニットセーター',
+    white_lace_blouse:'繊細なレーストリムの白ブラウス',
+    charcoal_offshoulder:'チャコールのオフショルダーニットトップ',
+    beige_draped:'ソフトベージュのドレープトップ',
+    bikini_top:'ミニマルなビキニトップ',
+    lingerie_bralette:'繊細なレースブラレット',
+  },
+  outfit_bottom: {
+    black_pleated:'黒のハイウエストプリーツミニスカート',
+    forest_green_mini:'深いフォレストグリーンのミニスカート',
+    gothic_velvet_dress:'レイヤードレースのゴシックベルベットドレス',
+    airy_sundress:'エアリーなオフホワイトサンドレス',
+    black_slit_dress:'ハイスリットの構築的な黒ドレス',
+    linen_shorts:'ゆったりしたリネンショートパンツ',
+    charcoal_mini:'テーラードチャコールミニスカート',
+    ivory_midi:'柔らかなアイボリーミディドレス',
+    bikini_bottom:'おそろいのビキニボトム',
+    one_piece_swimsuit:'スリークなワンピース水着',
+    lace_lingerie:'繊細なレースランジェリーボトム',
+  },
+  shoes: {
+    neon_orange:'ネオンオレンジのパテントレザー アンクルストラップスティレット',
+    emerald_green:'エメラルドグリーンのパテント プラットフォームスティレット',
+    ruby_red:'ルビーレッドのパテントレザー プラットフォームヒール',
+    peacock_blue:'ピーコックブルーのレザースティレット',
+    bright_yellow:'ブライトイエローのパテント プラットフォームヒール',
+    baby_blue:'ソフトベビーブルーのパテントヒール',
+    black_glossy:'ブラックグロッシー プラットフォームヒール',
+    wine_red:'ディープワインレッドのアンクルストラップスティレット',
+  },
+  accessories: {
+    silver_cross:'シルバーピアスとクロスネックレス',
+    hoops_chain:'シルバーフープピアスと細チェーンネックレス',
+    silver_pendant:'シルバーピアスと繊細なペンダント',
+    lace_cross:'レースディテール、シルバーピアス、クロスペンダント',
+    minimal_silver:'ミニマルなシルバージュエリーと細いネックレス',
+    small_cross:'小さなシルバーピアスと控えめなクロスネックレス',
   },
   pose: {
-    natural_stand:'リラックスした自然な立ち姿、片側にわずかに重心を移し、腕はゆったり下ろしている',
-    sitting:'床やベンチにカジュアルに座り、膝の上や前方に腕を休ませている',
-    walking:'歩いている途中を捉えた、片足が前に出て腕が振られている',
-    phone:'スマホに集中、親指でスクロールまたは入力中、あごがやや下がり画面に没頭',
-    wall_lean:'壁に片肩をもたせかけ、足首を軽く交差、腕はゆるく組んでいる',
-    crouch:'低くしゃがみ、膝を合わせ、地面の何かを見ているか休憩中',
-    look_back:'片肩越しに振り返る、体はまだほとんど背を向けたまま、半横顔が見える',
-    stretch:'伸びの途中、腕を上げるか広げ、体がやや反っている、自然なリラックス動作',
+    sit_steps:'階段にリラックスしつつも自信を持って座っている',
+    lean_wall:'穏やかな自信で壁にもたれている',
+    kneel:'端正な姿勢で膝をついている',
+    recline:'構造物に斜めにもたれかかっている',
+    lounge_booth:'ブースで片腰をわずかに傾けてくつろいでいる',
+    stand_close:'コントロールされたファッションポーズでカメラに接近して立っている',
+    rest_step:'穏やかで自信に満ちた姿勢で段に片足を置いて休んでいる',
   },
-  held_item: {
-    none:'',
-    smartphone:'片手にスマホを持ち、画面を自分に向けている',
-    bottle:'透明なペットボトルのお茶かミネラルウォーターを手に持っている',
-    coffee:'紙コップのコーヒーかコンビニのホットドリンクを手に持っている',
-    umbrella:'畳んだ傘かビニール傘を脇に持っている',
-    bag:'トートバッグか小さなショルダーバッグを片手または腕にかけている',
-    towel:'小さなハンドタオルを肩にかけるか首にゆるく巻いている',
-    script:'折りたたんだ紙か小さな台本を手に、リハーサルの合間にセリフを確認中',
-    ice_cream:'アイスクリームコーンかアイスキャンディーを手に、夏のカジュアルなおやつ',
-    fan:'うちわまたは扇子を手に、そよ風を感じさせる',
+  leg_action: {
+    extend_toward:'片脚をカメラに向けて伸ばしている',
+    foot_on_table:'つま先をテーブルの角に軽く置いている',
+    heel_close:'ヒールをレンズ近くに持ち上げている',
+    legs_foreground:'体は背景に退き、脚が前景を支配している',
+    step_down:'片足が視聴者に向かって踏み出している',
+    knee_bent:'片膝を曲げ、もう一方の脚をカメラに向けて伸ばしている',
+    shoe_near_lens:'片方の靴がレンズ近くに置かれ、もう片方で体を支えている',
   },
-  noise: {
-    low:'ノイズ最小限、かなりシャープなスマホ画質',
-    mid:'標準ISOでの一般的なスマホノイズ、端にわずかな粒子感',
-    high:'高ISOによる激しいノイズと粒子、暗部に色にじみ',
-    film:'フィルムのような繊細なハレーションと粒子テクスチャ、わずかな色ずれ',
+  gaze: {
+    calm_down:'穏やかな自信でカメラを見下ろしている',
+    quiet_intensity:'静かな強さでレンズを直視している',
+    composed_down:'落ち着いた表情でやや下方を見ている',
+    relaxed_commanding:'リラックスしつつも威厳のある視線で見つめている',
+    subtle_elegance:'繊細な優雅さで見下ろしている',
+    self_possessed:'穏やかで自信に満ちた表情でカメラを見つめている',
   },
-  motion: {
-    sharp:'ほぼピントが合ってシャープな画像',
-    slight:'かすかなカメラの手ブレ、端に微妙なモーショントレイル',
-    motion:'動いている最中の被写体ブレ、手や髪にモーションブラー',
-    soft:'ピントがわずかにずれたようなソフトフォーカス',
+  lighting: {
+    soft_geometric:'柔らかな自然光が上から差し込み、幾何学的な影とハイキーな輝き',
+    backlight_rim:'頭上からの拡散バックライト、シルエットの周りに輝くリムライト',
+    warm_melancholic:'暖かい窓の光、柔らかくメランコリックな輝きと穏やかなオーバー露出',
+    dramatic_shafts:'ドラマチックな光の帯が空間を貫き、塵を照らしシネマティックなコントラスト',
+    skylight_airy:'淡い天窓の光がエアリーでわずかにオーバー露出の柔らかさで場面を包む',
+    side_warm:'横からの柔らかい日差しが暖かく自然な輝きと穏やかな影のグラデーション',
+    overhead_modern:'頭上からの明るい日差しがクリーンなコントラストとモダンな建築的雰囲気を生む',
+  },
+  mood: {
+    modern_architectural:'モダンで建築的',
+    melancholic_warm:'メランコリックで暖かい',
+    gothic_noir:'ゴシックノワール',
+    industrial_cinematic:'インダストリアルでシネマティック',
+    japanese_film:'エアリーな日本映画の雰囲気',
+    dark_academia:'ダークアカデミア',
+    quietly_decadent:'静かに退廃的',
+    high_fashion:'ハイファッションだが地に足がついた',
+    soft_atmospheric:'柔らかく大気的',
   },
 };
 
@@ -1545,7 +1382,6 @@ function resolveCustom(cat) {
 
 let lastResult    = {};
 let lastZPrompt   = '';
-let lastWanPrompt = '';
 let lastJaPrompt  = '';
 let currentTab    = 'z';
 let history       = [];
@@ -1639,11 +1475,9 @@ function generate() {
   const customPart = customTexts ? ' ' + customTexts : '';
 
   lastZPrompt   = buildZPrompt(resultTexts, customPart);
-  lastWanPrompt = buildWanPrompt(resultTexts, customPart);
   lastJaPrompt  = buildJaPrompt(result, customPart);
 
   document.getElementById('out-z').textContent   = lastZPrompt;
-  document.getElementById('out-wan').textContent = lastWanPrompt;
   document.getElementById('out-ja').textContent  = lastJaPrompt;
 
   // バッジ
@@ -1687,35 +1521,10 @@ function generate() {
 }
 
 function buildZPrompt(rt, customPart) {
-  const itemPart      = rt.held_item    ? ` ${rt.held_item}.`    : '';
-  const accessoryPart = rt.accessory    ? ` ${rt.accessory}.`    : '';
-  const expressionPart= rt.expression   ? ` ${rt.expression}.`   : '';
-  const emotionPart   = rt.emotion      ? ` ${rt.emotion}.`      : '';
-  const makeupPart    = rt.makeup       ? ` ${rt.makeup}.`       : '';
-
-  let outfitDesc = rt.outfit;
-  if (rt.outfit_color) outfitDesc += `, ${rt.outfit_color}`;
-  if (rt.outfit_pattern) outfitDesc += `, ${rt.outfit_pattern}`;
-
-  return `A candid iPhone snapshot of a young Japanese idol in her everyday life. ${rt.body}.${expressionPart}${makeupPart} ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart} ${outfitDesc}, ${rt.hair}.${accessoryPart}${emotionPart} ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} The photo feels imperfect and unposed: slightly awkward crop, mild smartphone compression, no cinematic lighting or editorial polish. All scene cues are clearly Japanese through environmental details. No readable text or brand logos. photorealistic, snapshot aesthetic, natural skin texture, coherent anatomy.`;
-}
-
-function buildWanPrompt(rt, customPart) {
-  const itemPart      = rt.held_item    ? ` ${rt.held_item}.`    : '';
-  const accessoryPart = rt.accessory    ? ` ${rt.accessory}.`    : '';
-  const expressionPart= rt.expression   ? ` ${rt.expression}.`   : '';
-  const emotionPart   = rt.emotion      ? ` ${rt.emotion}.`      : '';
-  const makeupPart    = rt.makeup       ? ` ${rt.makeup}.`       : '';
-
-  let outfitDesc = rt.outfit;
-  if (rt.outfit_color) outfitDesc += `, ${rt.outfit_color}`;
-  if (rt.outfit_pattern) outfitDesc += `, ${rt.outfit_pattern}`;
-
-  return `A candid iPhone video clip of a young Japanese idol in her everyday life. ${rt.body}.${expressionPart}${makeupPart} ${rt.location}. ${rt.time_of_day}. ${rt.distance}. ${rt.angle}. ${rt.pose}.${itemPart} ${outfitDesc}, ${rt.hair}.${accessoryPart}${emotionPart} ${rt.exposure}. ${rt.noise}. ${rt.motion}.${customPart} Natural subtle ambient movement. Authentic Japan setting. Everyday life, no studio polish, no cinematic lighting. Realistic proportions, natural skin, correct hands and fingers.`;
+  return `A ${rt.lens} photograph is captured from an ${rt.angle} perspective in ${rt.location}. A ${rt.foreground_object} is placed very close to the lens, creating strong foreground depth and dramatic foreshortening, while ${rt.leading_lines} guide the viewer's eye through the frame. The subject is one adult Japanese woman. She ${rt.pose}, with ${rt.leg_action}. She looks ${rt.gaze}. She has ${rt.face_skin} and ${rt.hair}. She wears ${rt.outfit_top}, ${rt.outfit_bottom}, and ${rt.shoes}, completed with ${rt.accessories}. ${rt.lighting}. The atmosphere feels ${rt.mood}.${customPart} photorealistic, realistic anatomy, natural skin texture, coherent hands and feet, clean composition`;
 }
 
 function buildJaPrompt(result, customPart) {
-  // 各パラメータの和訳を取得
   function ja(key) {
     const val = result[key];
     if (!val || val === '__custom__') {
@@ -1726,35 +1535,24 @@ function buildJaPrompt(result, customPart) {
   }
 
   const parts = [];
-  parts.push('日本のアイドルの日常を捉えた、カジュアルなiPhoneスナップショット。');
-  if (ja('body')) parts.push(ja('body') + '。');
-  if (ja('expression')) parts.push(ja('expression') + '。');
-  if (ja('makeup')) parts.push(ja('makeup') + '。');
-  if (ja('location')) parts.push(ja('location') + '。');
-  if (ja('time_of_day')) parts.push(ja('time_of_day') + '。');
-  if (ja('distance')) parts.push(ja('distance') + '。');
-  if (ja('angle')) parts.push(ja('angle') + '。');
+  parts.push('成人の日本人女性を被写体にした、超広角ローアングルの写真。');
+  if (ja('lens')) parts.push(`${ja('lens')}のレンズ。`);
+  if (ja('angle')) parts.push(`${ja('angle')}のアングル。`);
+  if (ja('location')) parts.push(`${ja('location')}にて。`);
+  if (ja('foreground_object')) parts.push(`レンズ近くに${ja('foreground_object')}を配置、強い前景の奥行きとフォアショートニング。`);
+  if (ja('leading_lines')) parts.push(`${ja('leading_lines')}が視線を導く。`);
   if (ja('pose')) parts.push(ja('pose') + '。');
-  if (ja('held_item')) parts.push(ja('held_item') + '。');
-
-  // 衣装 + カラー + 柄
-  let outfitJa = ja('outfit');
-  const colorJa = ja('outfit_color');
-  const patternJa = ja('outfit_pattern');
-  if (colorJa || patternJa) {
-    const mods = [colorJa, patternJa].filter(Boolean).join('、');
-    outfitJa = mods + (outfitJa ? '　' + outfitJa : '');
-  }
-  if (outfitJa) parts.push(outfitJa + '。');
-
+  if (ja('leg_action')) parts.push(ja('leg_action') + '。');
+  if (ja('gaze')) parts.push(ja('gaze') + '。');
+  if (ja('face_skin')) parts.push(ja('face_skin') + '。');
   if (ja('hair')) parts.push(ja('hair') + '。');
-  if (ja('accessory')) parts.push(ja('accessory') + '。');
-  if (ja('emotion')) parts.push(ja('emotion') + '。');
-  if (ja('exposure')) parts.push(ja('exposure') + '。');
-  if (ja('noise')) parts.push(ja('noise') + '。');
-  if (ja('motion')) parts.push(ja('motion') + '。');
-
-  parts.push('不完全で無造作な写真：やや不格好なクロップ、スマホ特有の圧縮、シネマティックな照明やエディトリアルな仕上げなし。日本の環境ディテールで場面を表現。フォトリアリスティック、スナップショット感、自然な肌質感。');
+  if (ja('outfit_top')) parts.push(ja('outfit_top') + '、');
+  if (ja('outfit_bottom')) parts.push(ja('outfit_bottom') + '、');
+  if (ja('shoes')) parts.push(ja('shoes') + '。');
+  if (ja('accessories')) parts.push(ja('accessories') + '。');
+  if (ja('lighting')) parts.push(ja('lighting') + '。');
+  if (ja('mood')) parts.push(`雰囲気: ${ja('mood')}。`);
+  parts.push('フォトリアリスティック、リアルな解剖学、自然な肌質感、整った手足、クリーンな構図。');
 
   return parts.join(' ');
 }
@@ -1765,14 +1563,9 @@ function buildJaPrompt(result, customPart) {
 function switchOutputTab(tab) {
   currentTab = tab;
   document.getElementById('out-z').classList.toggle('active',   tab === 'z');
-  document.getElementById('out-wan').classList.toggle('active', tab === 'wan');
   document.getElementById('out-ja').classList.toggle('active',  tab === 'ja');
   document.getElementById('tab-z').classList.toggle('active',   tab === 'z');
-  document.getElementById('tab-wan').classList.toggle('active', tab === 'wan');
   document.getElementById('tab-ja').classList.toggle('active',  tab === 'ja');
-
-  const cb = document.getElementById('copy-btn');
-  cb.classList.toggle('wan-mode', tab === 'wan');
   resetCopyBtn();
 }
 
@@ -1794,7 +1587,6 @@ function fallbackCopy(text) {
 
 function showCopyFeedback(label) {
   const cb = document.getElementById('copy-btn');
-  cb.classList.toggle('wan-mode', currentTab === 'wan');
   cb.textContent = label;
   cb.classList.add('copied');
   setTimeout(() => { cb.textContent = 'クリップボードにコピー'; cb.classList.remove('copied'); }, 2000);
@@ -1802,7 +1594,6 @@ function showCopyFeedback(label) {
 
 function getActivePrompt() {
   if (currentTab === 'z') return lastZPrompt;
-  if (currentTab === 'wan') return lastWanPrompt;
   return lastJaPrompt;
 }
 
@@ -1833,7 +1624,7 @@ function addHistory() {
   const badgesHTML     = document.getElementById('badges').innerHTML;
   const resultSnapshot = Object.assign({}, lastResult);
   const title          = makeHistoryTitle(resultSnapshot);
-  history.unshift({ time, z: lastZPrompt, wan: lastWanPrompt, badgesHTML, result: resultSnapshot, title });
+  history.unshift({ time, z: lastZPrompt, badgesHTML, result: resultSnapshot, title });
   if (history.length > 8) history.pop();
 
   const hl = document.getElementById('history-list');
@@ -1850,9 +1641,7 @@ function addHistory() {
 function restoreHistory(i) {
   const h = history[i];
   lastZPrompt   = h.z;
-  lastWanPrompt = h.wan;
   document.getElementById('out-z').textContent   = lastZPrompt;
-  document.getElementById('out-wan').textContent = lastWanPrompt;
   if (h.badgesHTML) {
     document.getElementById('badges').innerHTML = h.badgesHTML;
   }
