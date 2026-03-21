@@ -23,7 +23,7 @@ lowshot-ai/
 ### データ定義
 - **`PARAMS`** オブジェクト — 各パラメータのラベルと選択肢（日本語UI用）
 - **`TEXT`** オブジェクト — 各パラメータの英語プロンプトテキストマップ
-- 組み込みパラメータ: `location`, `lens`, `angle`, `foreground_object`, `leading_lines`, `face_skin`, `hair`, `outfit_top`, `outfit_bottom`, `shoes`, `accessories`, `pose`, `leg_action`, `gaze`, `lighting`, `mood`
+- 組み込みパラメータ: `location`, `lens`, `angle`, `foreground_object`, `leading_lines`, `face_skin`, `hair`, `hair_color`, `outfit_top`, `top_color`, `outfit_bottom`, `bottom_color`, `shoes`, `shoe_color`, `accessories`, `pose`, `leg_action`, `gaze`, `lighting`, `mood`
 
 ### プロンプト生成関数
 - `buildZPrompt(rt, customPart)` — Z-image 用プロンプトを組み立て
@@ -31,7 +31,7 @@ lowshot-ai/
 - `generate()` — UIの状態を読み取りプロンプトを生成・表示
 
 ### カスタムカテゴリ
-- `customCategories` 配列（`localStorage` に `'idol_snap_custom'` キーで保存）
+- `customCategories` 配列（`localStorage` に `'lowshot_custom'` キーで保存）
 - 追加・編集・削除は `saveCategory()` / `deleteCategory()` で管理
 
 ## 修正時の注意事項
@@ -44,7 +44,7 @@ lowshot-ai/
 ### やってはいけないこと
 - **Pony・SDXL に関する設定・キーワードは追加しない**（対応外モデル）
 - `PARAMS` のキー名を変更すると `TEXT` や `locks` との整合性が崩れる
-- `localStorage` のキー `'idol_snap_custom'` を変更するとユーザーデータが失われる
+- `localStorage` のキー `'lowshot_custom'` を変更するとユーザーデータが失われる
 
 ## 対応モデル
 

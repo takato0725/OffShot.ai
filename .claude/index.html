@@ -1335,11 +1335,17 @@ let editingKey = null;
 
 function loadCustomCategories() {
   try {
-    return JSON.parse(localStorage.getItem('idol_snap_custom') || '[]');
+    // マイグレーション: 旧キー → 新キー
+    const old = localStorage.getItem('idol_snap_custom');
+    if (old !== null && localStorage.getItem('lowshot_custom') === null) {
+      localStorage.setItem('lowshot_custom', old);
+      localStorage.removeItem('idol_snap_custom');
+    }
+    return JSON.parse(localStorage.getItem('lowshot_custom') || '[]');
   } catch { return []; }
 }
 function saveToStorage() {
-  localStorage.setItem('idol_snap_custom', JSON.stringify(customCategories));
+  localStorage.setItem('lowshot_custom', JSON.stringify(customCategories));
 }
 
 // ══════════════════════════════════════════════
